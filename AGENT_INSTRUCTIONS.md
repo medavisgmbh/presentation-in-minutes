@@ -219,7 +219,7 @@ function init[ChartName](canvas) {
 **Rules:**
 - Each chart needs unique canvas ID
 - Register in `initChartsOnSlide()` function
-- Colors: red (#dc3545) for negative, green (#79aa00) for positive, blue (#005ca9) for neutral
+- Colors: red (#dc3545) for negative, green (#79aa00) for positive, blue (#005ca9) for info/neutral
 
 ---
 
@@ -448,9 +448,11 @@ function init[ChartName](canvas) {
 ### Colors
 | Purpose | Hex | Usage |
 |---------|-----|-------|
-| Primary | `#005ca9` | Links, buttons, accents, bullets |
-| Primary Hover | `#0083bf` | Button hover states |
-| Primary Light | `#00b6ed` | Highlights, shimmer effects |
+| Primary | `#79aa00` | Links, buttons, accents, bullets |
+| Primary Hover | `#658e1e` | Button hover states |
+| Primary Dark | `#4a772b` | Active states, borders |
+| Accent | `#005ca9` | Secondary highlights, info elements |
+| Accent Light | `#00b6ed` | Shimmer effects, light accents |
 | Text Primary | `#333f4c` | Headings |
 | Text Secondary | `#333f4c` | Body text |
 | Text Muted | `#666` | Captions, attributions |
@@ -816,7 +818,7 @@ h2 {
     color: #333f4c;
     margin-bottom: 40px;
     font-weight: 600;
-    border-bottom: 4px solid #005ca9;
+    border-bottom: 4px solid #79aa00;
     padding-bottom: 15px;
     display: inline-block;
 }
@@ -859,7 +861,7 @@ ul li::before {
     content: "●";
     position: absolute;
     left: 0;
-    color: #005ca9;
+    color: #79aa00;
     font-size: 1.5rem;
 }
 
@@ -887,12 +889,12 @@ table {
 }
 
 th {
-    background: #005ca9;
+    background: #79aa00;
     color: white;
     padding: 20px;
     text-align: left;
     font-weight: 600;
-    border: 1px solid #0083bf;
+    border: 1px solid #658e1e;
 }
 
 td {
@@ -931,7 +933,7 @@ tr:nth-child(even) {
 }
 
 button {
-    background: #005ca9;
+    background: #79aa00;
     color: white;
     border: none;
     padding: 12px 25px;
@@ -944,11 +946,11 @@ button {
 }
 
 button:hover {
-    background: #0083bf;
+    background: #658e1e;
 }
 
 button:active {
-    background: #333f4c;
+    background: #4a772b;
 }
 
 .slide-number {
@@ -969,7 +971,7 @@ button:active {
     bottom: 0;
     left: 0;
     height: 4px;
-    background: #005ca9;
+    background: #79aa00;
     z-index: 100;
     transition: width 0.3s ease;
 }
@@ -1021,13 +1023,13 @@ body.laser-mode {
 }
 
 .highlight {
-    color: #005ca9;
+    color: #79aa00;
     font-weight: 600;
 }
 
 .badge {
     display: inline-block;
-    background: #005ca9;
+    background: #79aa00;
     color: white;
     padding: 10px 25px;
     border-radius: 4px;
@@ -1055,7 +1057,7 @@ body.laser-mode {
 
 .image-demo img {
     box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-    border: 3px solid #005ca9;
+    border: 3px solid #79aa00;
     border-radius: 8px;
 }
 
@@ -1114,17 +1116,17 @@ body.laser-mode {
     justify-content: center;
     width: 150px;
     height: 150px;
-    background: linear-gradient(135deg, #005ca9, #0083bf);
+    background: linear-gradient(135deg, #79aa00, #658e1e);
     color: white;
     border-radius: 12px;
     font-size: 1.2rem;
     font-weight: 600;
     margin: 15px;
-    box-shadow: 0 4px 15px rgba(0, 92, 169, 0.4);
+    box-shadow: 0 4px 15px rgba(121, 170, 0, 0.4);
 }
 
 .shimmer-text {
-    background: linear-gradient(90deg, #005ca9 0%, #00b6ed 50%, #005ca9 100%);
+    background: linear-gradient(90deg, #79aa00 0%, #a8d830 50%, #79aa00 100%);
     background-size: 200% auto;
     -webkit-background-clip: text;
     background-clip: text;
@@ -1147,14 +1149,14 @@ body.laser-mode {
 
 .two-column .column h3 {
     margin-top: 0;
-    border-bottom: 3px solid #005ca9;
+    border-bottom: 3px solid #79aa00;
     padding-bottom: 10px;
 }
 
 /* Quote/Callout styling */
 .quote-block {
     background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-    border-left: 6px solid #005ca9;
+    border-left: 6px solid #79aa00;
     padding: 40px 50px;
     margin: 30px 0;
     position: relative;
@@ -1167,7 +1169,7 @@ body.laser-mode {
     top: 10px;
     left: 20px;
     font-size: 5rem;
-    color: #005ca9;
+    color: #79aa00;
     opacity: 0.3;
     font-family: Georgia, serif;
     line-height: 1;
@@ -1188,8 +1190,8 @@ body.laser-mode {
 }
 
 .callout {
-    background: #e7f3ff;
-    border: 2px solid #005ca9;
+    background: #f0f7e6;
+    border: 2px solid #79aa00;
     border-radius: 8px;
     padding: 30px 40px;
     margin: 30px 0;
@@ -1200,9 +1202,9 @@ body.laser-mode {
     border-color: #ff9800;
 }
 
-.callout.success {
-    background: #e8f5e9;
-    border-color: #79aa00;
+.callout.info {
+    background: #e7f3ff;
+    border-color: #005ca9;
 }
 
 .callout p { margin-bottom: 0; }
@@ -1263,20 +1265,21 @@ body.laser-mode {
 /* Icon grid */
 .icon-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 30px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
     margin: 30px 0;
 }
 
 .icon-item {
     display: flex;
     align-items: flex-start;
-    gap: 20px;
-    padding: 25px;
+    gap: 25px;
+    padding: 35px 30px;
     background: white;
-    border-radius: 8px;
+    border-radius: 12px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
+    min-height: 140px;
 }
 
 .icon-item:hover {
@@ -1287,33 +1290,33 @@ body.laser-mode {
 .icon-item .icon {
     font-size: 3rem;
     flex-shrink: 0;
-    width: 60px;
-    height: 60px;
+    width: 70px;
+    height: 70px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #e7f3ff;
+    background: #f0f7e6;
     border-radius: 12px;
 }
 
 .icon-item .icon svg {
-    width: 32px;
-    height: 32px;
-    fill: #005ca9;
+    width: 38px;
+    height: 38px;
+    fill: #79aa00;
 }
 
 .icon-item .icon-content h4 {
-    font-size: 1.8rem;
+    font-size: 2rem;
     color: #333f4c;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
     font-weight: 600;
 }
 
 .icon-item .icon-content p {
-    font-size: 1.4rem;
+    font-size: 1.5rem;
     color: #666;
     margin: 0;
-    line-height: 1.4;
+    line-height: 1.5;
 }
 
 /* Call-to-Action slide */
@@ -1354,20 +1357,20 @@ body.laser-mode {
 }
 
 .cta-button.primary {
-    background: #005ca9;
+    background: #79aa00;
     color: white;
-    box-shadow: 0 4px 15px rgba(0, 92, 169, 0.4);
+    box-shadow: 0 4px 15px rgba(121, 170, 0, 0.4);
 }
 
 .cta-button.primary:hover {
     transform: translateY(-3px);
-    box-shadow: 0 6px 20px rgba(0, 92, 169, 0.5);
+    box-shadow: 0 6px 20px rgba(121, 170, 0, 0.5);
 }
 
 .cta-button.secondary {
     background: white;
-    color: #005ca9;
-    border: 3px solid #005ca9;
+    color: #79aa00;
+    border: 3px solid #79aa00;
 }
 
 .cta-button.secondary:hover {
@@ -1382,7 +1385,7 @@ body.laser-mode {
 }
 
 .cta-contact a {
-    color: #005ca9;
+    color: #79aa00;
     text-decoration: none;
     font-weight: 600;
 }
@@ -1410,7 +1413,10 @@ body.laser-mode {
     .quote-block p { font-size: 1.4rem; }
     .quote-block .attribution { font-size: 1.1rem; }
     .code-block { font-size: 1rem; padding: 15px; }
-    .icon-grid { grid-template-columns: 1fr; }
+    .icon-grid { grid-template-columns: 1fr 1fr; gap: 25px; }
+    .icon-item { padding: 25px 20px; min-height: auto; }
+    .icon-item .icon { width: 50px; height: 50px; }
+    .icon-item .icon svg { width: 28px; height: 28px; }
     .icon-item .icon-content h4 { font-size: 1.3rem; }
     .icon-item .icon-content p { font-size: 1.1rem; }
     .cta-slide h2 { font-size: 2.5rem; }
@@ -1445,6 +1451,6 @@ body.laser-mode {
     }
     .slide-content { padding: 40px 60px; }
     .chart-container canvas { max-width: 100%; }
-    .cta-button { border: 2px solid #005ca9 !important; }
+    .cta-button { border: 2px solid #79aa00 !important; }
 }
 ```
