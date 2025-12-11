@@ -1,0 +1,1178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presentation in Minutes - AI-Powered Presentation Framework</title>
+    <style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Calibri', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow: hidden;
+    background: #1a1a1a;
+    padding: 20px;
+}
+
+.slide-container {
+    width: calc(100vw - 40px);
+    height: calc(100vh - 40px);
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px;
+    border: 5px solid #444;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+}
+
+.slide {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 60px 80px;
+    opacity: 0;
+    transform: translateX(100%);
+    transition: all 0.5s ease-in-out;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.slide.active {
+    opacity: 1;
+    transform: translateX(0);
+    z-index: 10;
+}
+
+.slide.prev {
+    transform: translateX(-100%);
+}
+
+.slide-content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Title slide specific */
+.slide.title-slide .slide-content {
+    justify-content: center;
+    align-items: flex-start;
+    padding-left: 100px;
+}
+
+.slide.title-slide h1 {
+    font-size: 5rem;
+    color: #1a1a1a;
+    margin-bottom: 30px;
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+.slide.title-slide .subtitle {
+    font-size: 2.7rem;
+    color: #4a4a4a;
+    margin-bottom: 40px;
+}
+
+/* Content slides */
+h2 {
+    font-size: 4rem;
+    color: #1a1a1a;
+    margin-bottom: 40px;
+    font-weight: 600;
+    border-bottom: 4px solid #0066cc;
+    padding-bottom: 15px;
+    display: inline-block;
+}
+
+h3 {
+    font-size: 2.5rem;
+    color: #333;
+    margin-bottom: 20px;
+    margin-top: 30px;
+    font-weight: 600;
+}
+
+p {
+    font-size: 2.7rem;
+    line-height: 1.6;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+ul, ol {
+    font-size: 2.7rem;
+    line-height: 1.8;
+    color: #333;
+    margin-left: 0;
+    list-style-position: outside;
+    padding-left: 40px;
+}
+
+ul {
+    list-style-type: none;
+}
+
+ul li {
+    margin-bottom: 20px;
+    padding-left: 30px;
+    position: relative;
+}
+
+ul li::before {
+    content: "●";
+    position: absolute;
+    left: 0;
+    color: #0066cc;
+    font-size: 1.5rem;
+}
+
+ol {
+    list-style-type: decimal;
+}
+
+ol li {
+    margin-bottom: 20px;
+    padding-left: 15px;
+}
+
+strong {
+    color: #000;
+    font-weight: 600;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 30px 0;
+    font-size: 2rem;
+    background: white;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+th {
+    background: #0066cc;
+    color: white;
+    padding: 20px;
+    text-align: left;
+    font-weight: 600;
+    border: 1px solid #0052a3;
+}
+
+td {
+    padding: 18px 20px;
+    border: 1px solid #ddd;
+    color: #333;
+}
+
+tr:nth-child(even) {
+    background: #f5f5f5;
+}
+
+.chart-container {
+    width: 100%;
+    max-width: 900px;
+    margin: 30px 0;
+    background: white;
+    padding: 30px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.controls {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    display: flex;
+    gap: 15px;
+    z-index: 100;
+    opacity: 1;
+    transition: opacity 0.5s ease;
+}
+
+.controls.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+button {
+    background: #0066cc;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    font-size: 1.1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: 'Calibri', sans-serif;
+    font-weight: 600;
+    transition: background 0.2s ease;
+}
+
+button:hover {
+    background: #0052a3;
+}
+
+button:active {
+    background: #004080;
+}
+
+.slide-number {
+    position: fixed;
+    bottom: 30px;
+    left: 30px;
+    color: #1a1a1a;
+    font-size: 1.1rem;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 8px 16px;
+    border-radius: 4px;
+    z-index: 100;
+    font-weight: 600;
+}
+
+.progress-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    height: 4px;
+    background: #0066cc;
+    z-index: 100;
+    transition: width 0.3s ease;
+}
+
+/* Laser pointer mode */
+.laser-pointer {
+    position: fixed;
+    width: 12px;
+    height: 12px;
+    background: radial-gradient(circle, #ff0000 0%, #ff0000 40%, rgba(255, 0, 0, 0.4) 70%, transparent 100%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 10px 3px rgba(255, 0, 0, 0.6);
+    display: none;
+}
+
+.laser-pointer.active {
+    display: block;
+}
+
+body.laser-mode {
+    cursor: none;
+}
+
+.laser-toggle {
+    background: #666;
+    padding: 12px 15px;
+    font-size: 0.9rem;
+}
+
+.laser-toggle.active {
+    background: #993333;
+}
+
+.laser-toggle.active:hover {
+    background: #802929;
+}
+
+.fullscreen-toggle {
+    background: #666;
+    padding: 12px 15px;
+    font-size: 0.9rem;
+}
+
+.fullscreen-toggle:hover {
+    background: #555;
+}
+
+.highlight {
+    color: #0066cc;
+    font-weight: 600;
+}
+
+.badge {
+    display: inline-block;
+    background: #0066cc;
+    color: white;
+    padding: 10px 25px;
+    border-radius: 4px;
+    font-size: 1.6rem;
+    margin: 10px 15px 10px 0;
+    font-weight: 600;
+}
+
+/* Background image classes */
+.bg-first-slide {
+    background-image: url('https://raw.githubusercontent.com/medavisgmbh/presentation-in-minutes/refs/heads/main/data/presentation_first_slide.png');
+}
+
+.bg-default-slide {
+    background-image: url('https://raw.githubusercontent.com/medavisgmbh/presentation-in-minutes/refs/heads/main/data/presentation_default_slide.png');
+}
+
+.image-demo {
+    display: flex;
+    gap: 30px;
+    margin: 30px 0;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.image-demo img {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    border: 3px solid #0066cc;
+    border-radius: 8px;
+}
+
+/* Animation classes */
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInLeft {
+    from { opacity: 0; transform: translateX(-30px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes fadeInRight {
+    from { opacity: 0; transform: translateX(30px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes scaleIn {
+    from { opacity: 0; transform: scale(0.8); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+@keyframes shimmer {
+    0% { background-position: -200% center; }
+    100% { background-position: 200% center; }
+}
+
+.slide.active .anim-fade-up { animation: fadeInUp 3s ease-out forwards; }
+.slide.active .anim-fade-left { animation: fadeInLeft 3s ease-out forwards; }
+.slide.active .anim-fade-right { animation: fadeInRight 3s ease-out forwards; }
+.slide.active .anim-scale { animation: scaleIn 2.4s ease-out forwards; }
+.slide.active .anim-pulse { animation: pulse 2.5s ease-in-out infinite; }
+
+.anim-delay-1 { animation-delay: 0.6s !important; opacity: 0; }
+.anim-delay-2 { animation-delay: 1.2s !important; opacity: 0; }
+.anim-delay-3 { animation-delay: 1.8s !important; opacity: 0; }
+.anim-delay-4 { animation-delay: 2.4s !important; opacity: 0; }
+.anim-delay-5 { animation-delay: 3.0s !important; opacity: 0; }
+
+.slide.active .anim-delay-1,
+.slide.active .anim-delay-2,
+.slide.active .anim-delay-3,
+.slide.active .anim-delay-4,
+.slide.active .anim-delay-5 { opacity: 1; }
+
+.animation-demo-box {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 150px;
+    height: 150px;
+    background: linear-gradient(135deg, #0066cc, #004499);
+    color: white;
+    border-radius: 12px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 15px;
+    box-shadow: 0 4px 15px rgba(0, 102, 204, 0.4);
+}
+
+.shimmer-text {
+    background: linear-gradient(90deg, #0066cc 0%, #00aaff 50%, #0066cc 100%);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shimmer 3s linear infinite;
+}
+
+/* Two-column layout */
+.two-column {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
+    margin-top: 30px;
+}
+
+.two-column .column {
+    display: flex;
+    flex-direction: column;
+}
+
+.two-column .column h3 {
+    margin-top: 0;
+    border-bottom: 3px solid #0066cc;
+    padding-bottom: 10px;
+}
+
+/* Quote/Callout styling */
+.quote-block {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-left: 6px solid #0066cc;
+    padding: 40px 50px;
+    margin: 30px 0;
+    position: relative;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.quote-block::before {
+    content: '"';
+    position: absolute;
+    top: 10px;
+    left: 20px;
+    font-size: 5rem;
+    color: #0066cc;
+    opacity: 0.3;
+    font-family: Georgia, serif;
+    line-height: 1;
+}
+
+.quote-block p {
+    font-size: 2.4rem;
+    font-style: italic;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.quote-block .attribution {
+    font-size: 1.6rem;
+    font-style: normal;
+    color: #666;
+    text-align: right;
+}
+
+.callout {
+    background: #e7f3ff;
+    border: 2px solid #0066cc;
+    border-radius: 8px;
+    padding: 30px 40px;
+    margin: 30px 0;
+}
+
+.callout.warning {
+    background: #fff3e0;
+    border-color: #ff9800;
+}
+
+.callout.success {
+    background: #e8f5e9;
+    border-color: #4caf50;
+}
+
+.callout p { margin-bottom: 0; }
+
+/* Code block styling */
+.code-block {
+    background: #1e1e1e;
+    color: #d4d4d4;
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 1.6rem;
+    padding: 30px;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin: 30px 0;
+    line-height: 1.6;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    white-space: pre;
+}
+
+.code-block::-webkit-scrollbar { height: 8px; }
+.code-block::-webkit-scrollbar-track { background: #333; border-radius: 4px; }
+.code-block::-webkit-scrollbar-thumb { background: #666; border-radius: 4px; }
+.code-block::-webkit-scrollbar-thumb:hover { background: #888; }
+
+.code-block .comment { color: #6a9955; }
+.code-block .keyword { color: #569cd6; }
+.code-block .string { color: #ce9178; }
+.code-block .function { color: #dcdcaa; }
+.code-block .number { color: #b5cea8; }
+.code-block .tag { color: #569cd6; }
+.code-block .attribute { color: #9cdcfe; }
+
+.code-header {
+    background: #333;
+    color: #888;
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    border-radius: 8px 8px 0 0;
+    margin-bottom: -8px;
+    font-family: 'Consolas', monospace;
+}
+
+/* Icon grid */
+.icon-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    margin: 30px 0;
+}
+
+.icon-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 25px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.icon-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+}
+
+.icon-item .icon {
+    font-size: 3rem;
+    flex-shrink: 0;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #e7f3ff;
+    border-radius: 12px;
+}
+
+.icon-item .icon svg {
+    width: 32px;
+    height: 32px;
+    fill: #0066cc;
+}
+
+.icon-item .icon-content h4 {
+    font-size: 1.8rem;
+    color: #1a1a1a;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.icon-item .icon-content p {
+    font-size: 1.4rem;
+    color: #666;
+    margin: 0;
+    line-height: 1.4;
+}
+
+/* Call-to-Action slide */
+.cta-slide .slide-content {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.cta-slide h2 {
+    font-size: 4.5rem;
+    border-bottom: none;
+    margin-bottom: 30px;
+}
+
+.cta-slide .cta-subtitle {
+    font-size: 2.4rem;
+    color: #555;
+    margin-bottom: 50px;
+    max-width: 800px;
+}
+
+.cta-buttons {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.cta-button {
+    display: inline-block;
+    padding: 20px 50px;
+    font-size: 1.8rem;
+    font-weight: 600;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.cta-button.primary {
+    background: #0066cc;
+    color: white;
+    box-shadow: 0 4px 15px rgba(0, 102, 204, 0.4);
+}
+
+.cta-button.primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 102, 204, 0.5);
+}
+
+.cta-button.secondary {
+    background: white;
+    color: #0066cc;
+    border: 3px solid #0066cc;
+}
+
+.cta-button.secondary:hover {
+    transform: translateY(-3px);
+    background: #f0f7ff;
+}
+
+.cta-contact {
+    margin-top: 50px;
+    font-size: 1.6rem;
+    color: #666;
+}
+
+.cta-contact a {
+    color: #0066cc;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+/* Mobile responsive styles */
+@media (max-width: 768px) {
+    .slide { padding: 30px 40px; }
+    .slide.title-slide .slide-content { padding-left: 20px; }
+    .slide.title-slide h1 { font-size: 2.5rem; }
+    .slide.title-slide .subtitle { font-size: 1.4rem; }
+    h2 { font-size: 2rem; margin-bottom: 20px; }
+    h3 { font-size: 1.4rem; }
+    p, ul, ol { font-size: 1.3rem; line-height: 1.5; }
+    ul li, ol li { margin-bottom: 10px; }
+    table { font-size: 1rem; }
+    th, td { padding: 10px; }
+    .badge { font-size: 1rem; padding: 6px 12px; }
+    .controls { bottom: 15px; right: 15px; gap: 8px; }
+    button { padding: 10px 15px; font-size: 0.9rem; }
+    .slide-number { bottom: 15px; left: 15px; font-size: 0.9rem; padding: 6px 12px; }
+    .chart-container { padding: 15px; }
+    .image-demo img { max-width: 100%; height: auto; }
+    .two-column { grid-template-columns: 1fr; gap: 30px; }
+    .quote-block { padding: 25px 30px; }
+    .quote-block p { font-size: 1.4rem; }
+    .quote-block .attribution { font-size: 1.1rem; }
+    .code-block { font-size: 1rem; padding: 15px; }
+    .icon-grid { grid-template-columns: 1fr; }
+    .icon-item .icon-content h4 { font-size: 1.3rem; }
+    .icon-item .icon-content p { font-size: 1.1rem; }
+    .cta-slide h2 { font-size: 2.5rem; }
+    .cta-slide .cta-subtitle { font-size: 1.4rem; }
+    .cta-button { padding: 15px 30px; font-size: 1.2rem; }
+}
+
+/* Print styles for PDF export */
+@media print {
+    @page { size: landscape; margin: 0; }
+    body { background: white; padding: 0; margin: 0; }
+    .slide-container { width: 100%; height: auto; border: none; border-radius: 0; box-shadow: none; overflow: visible; }
+    .slide {
+        position: relative !important;
+        transform: none !important;
+        opacity: 1 !important;
+        page-break-after: always;
+        page-break-inside: avoid;
+        height: 100vh;
+        width: 100vw;
+        display: flex !important;
+        break-after: page;
+    }
+    .slide.bg-default-slide { background-image: none !important; background-color: white !important; }
+    .slide.bg-first-slide { background-size: cover !important; background-position: center !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+    .slide:last-child { page-break-after: auto; }
+    .slide.prev { transform: none !important; }
+    .controls, .slide-number, .progress-bar, .laser-pointer { display: none !important; }
+    .slide { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; color-adjust: exact !important; }
+    .anim-fade-up, .anim-fade-left, .anim-fade-right, .anim-scale, .anim-delay-1, .anim-delay-2, .anim-delay-3, .anim-delay-4, .anim-delay-5 {
+        opacity: 1 !important; transform: none !important; animation: none !important;
+    }
+    .slide-content { padding: 40px 60px; }
+    .chart-container canvas { max-width: 100%; }
+    .cta-button { border: 2px solid #0066cc !important; }
+}
+
+/* Recursive reveal special styling */
+.recursive-reveal {
+    font-size: 3rem;
+    text-align: center;
+    padding: 40px;
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+    color: #00ff88;
+    border-radius: 12px;
+    font-family: 'Consolas', monospace;
+    margin: 20px 0;
+    box-shadow: 0 0 30px rgba(0, 255, 136, 0.3);
+}
+
+.meta-box {
+    background: #f8f9fa;
+    border: 3px dashed #0066cc;
+    border-radius: 12px;
+    padding: 30px;
+    margin: 20px 0;
+    position: relative;
+}
+
+.meta-box::before {
+    content: "🔄 META";
+    position: absolute;
+    top: -15px;
+    left: 20px;
+    background: #0066cc;
+    color: white;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 1rem;
+    font-weight: 600;
+}
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <!-- Slide 1: Title -->
+        <div class="slide title-slide active bg-first-slide" data-slide="1">
+            <div class="slide-content">
+                <h1 class="anim-fade-up">Presentation in Minutes</h1>
+                <p class="subtitle anim-fade-up anim-delay-1">AI-Powered Presentations Without the Hassle</p>
+                <div class="anim-fade-up anim-delay-2">
+                    <span class="badge">🤖 AI Agent Ready</span>
+                    <span class="badge">📄 Single HTML File</span>
+                    <span class="badge">⚡ Zero Setup</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 2: The Problem -->
+        <div class="slide bg-default-slide" data-slide="2">
+            <div class="slide-content">
+                <h2 class="anim-fade-up">The Problem We All Know</h2>
+                <p class="anim-fade-up anim-delay-1">Creating presentations is a time-consuming process...</p>
+                <ul>
+                    <li class="anim-fade-left anim-delay-2"><strong>PowerPoint/Keynote</strong> - Powerful but requires manual design effort</li>
+                    <li class="anim-fade-left anim-delay-3"><strong>Web-based tools</strong> - Need accounts, subscriptions, internet</li>
+                    <li class="anim-fade-left anim-delay-4"><strong>Markdown to slides</strong> - Limited styling, basic features</li>
+                    <li class="anim-fade-left anim-delay-5"><strong>AI generators</strong> - Output locked in their platforms</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 3: The Solution -->
+        <div class="slide bg-default-slide" data-slide="3">
+            <div class="slide-content">
+                <h2>Enter: Presentation in Minutes</h2>
+                <div class="quote-block">
+                    <p>What if your AI assistant could generate professional, standalone presentations from a simple prompt?</p>
+                    <div class="attribution">— The core idea</div>
+                </div>
+                <div class="callout success">
+                    <p><strong>✅ The Solution:</strong> A comprehensive instruction file that teaches AI agents how to build beautiful HTML presentations—no templates, no dependencies, just one portable file.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: How It Works -->
+        <div class="slide bg-default-slide" data-slide="4">
+            <div class="slide-content">
+                <h2>How It Works</h2>
+                <ol>
+                    <li><strong>Load Instructions</strong> - Add <code>AGENT_INSTRUCTIONS.md</code> to your AI context</li>
+                    <li><strong>Describe Your Presentation</strong> - Tell the AI what you need</li>
+                    <li><strong>Get Complete HTML</strong> - Receive a single, self-contained presentation file</li>
+                    <li><strong>Open & Present</strong> - Works in any browser, online or offline</li>
+                </ol>
+                <div class="callout">
+                    <p><strong>💡 Key Insight:</strong> The AI doesn't just fill a template—it understands presentation design principles and generates appropriate content structures.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Integration Options -->
+        <div class="slide bg-default-slide" data-slide="5">
+            <div class="slide-content">
+                <h2>Integration Flexibility</h2>
+                <div class="two-column">
+                    <div class="column">
+                        <h3>🗨️ Standalone Chat</h3>
+                        <ul>
+                            <li>Paste instructions into any LLM chat</li>
+                            <li>Works with ChatGPT, Claude, Gemini</li>
+                            <li>No setup required</li>
+                            <li>Great for quick, one-off presentations</li>
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <h3>🛠️ Advanced Agents</h3>
+                        <ul>
+                            <li>GitHub Copilot (VS Code)</li>
+                            <li>Cursor IDE integration</li>
+                            <li>Custom agent workflows</li>
+                            <li>Automated presentation pipelines</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Copilot Integration -->
+        <div class="slide bg-default-slide" data-slide="6">
+            <div class="slide-content">
+                <h2>GitHub Copilot Integration</h2>
+                <p>Use VS Code's instruction file system for seamless integration:</p>
+                <div class="code-header">Folder Structure</div>
+                <div class="code-block"><span class="comment">// Place in your workspace or user prompts folder</span>
+.github/
+└── copilot-instructions/
+    └── presentation-mode.instructions.md
+
+<span class="comment">// Or as a VS Code user prompt</span>
+~/.vscode/prompts/
+└── presentation-mode.instructions.md</div>
+                <div class="callout success">
+                    <p><strong>✅ Pro Tip:</strong> In VS Code Copilot Chat, you can activate the instructions with <code>@workspace</code> or by selecting the mode in the chat panel!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Feature Overview -->
+        <div class="slide bg-default-slide" data-slide="7">
+            <div class="slide-content">
+                <h2>What You Get</h2>
+                <div class="icon-grid">
+                    <div class="icon-item">
+                        <div class="icon">
+                            <svg viewBox="0 0 24 24"><path d="M19,3H5C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5C21,3.89 20.1,3 19,3M19,5V19H5V5H19Z"/></svg>
+                        </div>
+                        <div class="icon-content">
+                            <h4>12 Slide Types</h4>
+                            <p>Title, bullets, tables, charts, code blocks, and more</p>
+                        </div>
+                    </div>
+                    <div class="icon-item">
+                        <div class="icon">
+                            <svg viewBox="0 0 24 24"><path d="M12,15.5A3.5,3.5 0 0,1 8.5,12A3.5,3.5 0 0,1 12,8.5A3.5,3.5 0 0,1 15.5,12A3.5,3.5 0 0,1 12,15.5M19.43,12.97C19.47,12.65 19.5,12.33 19.5,12C19.5,11.67 19.47,11.34 19.43,11L21.54,9.37C21.73,9.22 21.78,8.95 21.66,8.73L19.66,5.27C19.54,5.05 19.27,4.96 19.05,5.05L16.56,6.05C16.04,5.66 15.5,5.32 14.87,5.07L14.5,2.42C14.46,2.18 14.25,2 14,2H10C9.75,2 9.54,2.18 9.5,2.42L9.13,5.07C8.5,5.32 7.96,5.66 7.44,6.05L4.95,5.05C4.73,4.96 4.46,5.05 4.34,5.27L2.34,8.73C2.21,8.95 2.27,9.22 2.46,9.37L4.57,11C4.53,11.34 4.5,11.67 4.5,12C4.5,12.33 4.53,12.65 4.57,12.97L2.46,14.63C2.27,14.78 2.21,15.05 2.34,15.27L4.34,18.73C4.46,18.95 4.73,19.03 4.95,18.95L7.44,17.94C7.96,18.34 8.5,18.68 9.13,18.93L9.5,21.58C9.54,21.82 9.75,22 10,22H14C14.25,22 14.46,21.82 14.5,21.58L14.87,18.93C15.5,18.67 16.04,18.34 16.56,17.94L19.05,18.95C19.27,19.03 19.54,18.95 19.66,18.73L21.66,15.27C21.78,15.05 21.73,14.78 21.54,14.63L19.43,12.97Z"/></svg>
+                        </div>
+                        <div class="icon-content">
+                            <h4>Animations</h4>
+                            <p>Fade, scale, pulse effects with staggered timing</p>
+                        </div>
+                    </div>
+                    <div class="icon-item">
+                        <div class="icon">
+                            <svg viewBox="0 0 24 24"><path d="M17,19H7V5H17M17,1H7C5.89,1 5,1.89 5,3V21A2,2 0 0,0 7,23H17A2,2 0 0,0 19,21V3C19,1.89 18.1,1 17,1Z"/></svg>
+                        </div>
+                        <div class="icon-content">
+                            <h4>Responsive</h4>
+                            <p>Desktop to mobile, touch & swipe support</p>
+                        </div>
+                    </div>
+                    <div class="icon-item">
+                        <div class="icon">
+                            <svg viewBox="0 0 24 24"><path d="M19,20H5V4H7V7H17V4H19M12,2A1,1 0 0,1 13,3A1,1 0 0,1 12,4A1,1 0 0,1 11,3A1,1 0 0,1 12,2M19,2H14.82C14.4,0.84 13.3,0 12,0C10.7,0 9.6,0.84 9.18,2H5A2,2 0 0,0 3,4V20A2,2 0 0,0 5,22H19A2,2 0 0,0 21,20V4A2,2 0 0,0 19,2Z"/></svg>
+                        </div>
+                        <div class="icon-content">
+                            <h4>PDF Export</h4>
+                            <p>Ctrl+P for instant PDF with proper formatting</p>
+                        </div>
+                    </div>
+                    <div class="icon-item">
+                        <div class="icon">
+                            <svg viewBox="0 0 24 24"><path d="M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9M12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7A5,5 0 0,1 17,12A5,5 0 0,1 12,17M12,4.5C7,4.5 2.73,7.61 1,12C2.73,16.39 7,19.5 12,19.5C17,19.5 21.27,16.39 23,12C21.27,7.61 17,4.5 12,4.5Z"/></svg>
+                        </div>
+                        <div class="icon-content">
+                            <h4>Laser Pointer</h4>
+                            <p>Press L for presentation mode with laser</p>
+                        </div>
+                    </div>
+                    <div class="icon-item">
+                        <div class="icon">
+                            <svg viewBox="0 0 24 24"><path d="M5,3C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5A2,2 0 0,0 19,3H5M5,5H19V19H5V5M7,7V9H17V7H7M7,11V13H17V11H7M7,15V17H14V15H7Z"/></svg>
+                        </div>
+                        <div class="icon-content">
+                            <h4>Code Highlighting</h4>
+                            <p>Syntax colors for multiple languages</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: Use Cases -->
+        <div class="slide bg-default-slide" data-slide="8">
+            <div class="slide-content">
+                <h2>Perfect For...</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Use Case</th>
+                            <th>Example Prompt</th>
+                            <th>Result</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>📊 Project Updates</td>
+                            <td>"Create a sprint review presentation"</td>
+                            <td>5-8 slides with metrics</td>
+                        </tr>
+                        <tr>
+                            <td>📚 Training</td>
+                            <td>"Explain Kubernetes to beginners"</td>
+                            <td>10-15 educational slides</td>
+                        </tr>
+                        <tr>
+                            <td>💼 Pitches</td>
+                            <td>"Pitch deck for our SaaS product"</td>
+                            <td>Problem→Solution→CTA flow</td>
+                        </tr>
+                        <tr>
+                            <td>📋 Documentation</td>
+                            <td>"Onboarding guide for new devs"</td>
+                            <td>Step-by-step walkthrough</td>
+                        </tr>
+                        <tr>
+                            <td>🎉 Fun</td>
+                            <td>"Birthday presentation for Bob"</td>
+                            <td>Creative, personalized deck</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Slide 9: The Workflow -->
+        <div class="slide bg-default-slide" data-slide="9">
+            <div class="slide-content">
+                <h2>The Simple Workflow</h2>
+                <div style="display: flex; justify-content: space-around; margin-top: 40px; flex-wrap: wrap;">
+                    <div class="animation-demo-box anim-fade-up anim-delay-1" style="width: 200px; height: 120px; font-size: 1.4rem;">1️⃣<br>Describe Topic</div>
+                    <div style="display: flex; align-items: center; font-size: 3rem; color: #0066cc;">→</div>
+                    <div class="animation-demo-box anim-fade-up anim-delay-2" style="width: 200px; height: 120px; font-size: 1.4rem;">2️⃣<br>AI Generates</div>
+                    <div style="display: flex; align-items: center; font-size: 3rem; color: #0066cc;">→</div>
+                    <div class="animation-demo-box anim-fade-up anim-delay-3" style="width: 200px; height: 120px; font-size: 1.4rem;">3️⃣<br>Open HTML</div>
+                    <div style="display: flex; align-items: center; font-size: 3rem; color: #0066cc;">→</div>
+                    <div class="animation-demo-box anim-fade-up anim-delay-4 anim-pulse" style="width: 200px; height: 120px; font-size: 1.4rem; background: linear-gradient(135deg, #28a745, #218838);">4️⃣<br>Present! 🎉</div>
+                </div>
+                <p style="margin-top: 50px; text-align: center;">
+                    <span class="shimmer-text" style="font-size: 2.4rem; font-weight: 600;">From idea to presentation in minutes, not hours.</span>
+                </p>
+            </div>
+        </div>
+
+        <!-- Slide 10: Why Standalone HTML? -->
+        <div class="slide bg-default-slide" data-slide="10">
+            <div class="slide-content">
+                <h2>Why Single-File HTML?</h2>
+                <div class="two-column">
+                    <div class="column">
+                        <h3>✅ Advantages</h3>
+                        <ul>
+                            <li><strong>Portable</strong> - Email it, USB it, host it anywhere</li>
+                            <li><strong>No dependencies</strong> - Works offline forever</li>
+                            <li><strong>Version control</strong> - Git-friendly text format</li>
+                            <li><strong>Hackable</strong> - Tweak the HTML/CSS directly</li>
+                            <li><strong>Future-proof</strong> - Browsers will always exist</li>
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <h3>🎯 Zero Friction</h3>
+                        <ul>
+                            <li>No software installation</li>
+                            <li>No account creation</li>
+                            <li>No subscription fees</li>
+                            <li>No cloud storage needed</li>
+                            <li>No internet required to present</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 11: The Meta Reveal -->
+        <div class="slide bg-default-slide" data-slide="11">
+            <div class="slide-content">
+                <h2 class="anim-fade-up">Wait... 🤔</h2>
+                <p class="anim-fade-up anim-delay-1" style="font-size: 2.4rem;">Have you been wondering how this presentation was made?</p>
+                <div class="meta-box anim-scale anim-delay-2">
+                    <p style="font-size: 2.2rem; margin-bottom: 15px;"><strong>Plot twist:</strong> You're looking at a presentation about a presentation framework...</p>
+                    <p style="font-size: 2.2rem;"><strong>...created BY that very framework.</strong></p>
+                </div>
+                <p class="anim-fade-up anim-delay-4" style="text-align: center; margin-top: 30px;">
+                    <span class="shimmer-text" style="font-size: 2.8rem; font-weight: 600;">🔄 It's presentations all the way down! 🔄</span>
+                </p>
+            </div>
+        </div>
+
+        <!-- Slide 12: The Actual Prompt -->
+        <div class="slide bg-default-slide" data-slide="12">
+            <div class="slide-content">
+                <h2>The Prompt That Made This</h2>
+                <p style="font-size: 1.8rem;">Here's the actual message sent to the AI agent:</p>
+                <div class="code-header">User Prompt</div>
+                <div class="code-block" style="font-size: 1.4rem;"><span class="string">"create a presentation of this repository.
+it is a self reflective task.
+
+the finale of the presentation is to reveal that the 
+presentation was created using this framework and shows 
+how this prompt to create the presentation playing with 
+the recursive approach.
+
+For the presentation focus on why this is useful, how it 
+can be used (as standalone instruction file for a chat or 
+as part of more advanced agents like copilot or cursor)
+
+focus on the workflow and the use cases.
+
+also: have fun ;-)"</span></div>
+                <div class="callout success">
+                    <p><strong>✅ Result:</strong> The AI read the instructions, understood the meta-joke, and built this entire self-referential presentation!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 13: CTA -->
+        <div class="slide cta-slide bg-default-slide" data-slide="13">
+            <div class="slide-content">
+                <h2 class="anim-scale">Ready to Create?</h2>
+                <p class="cta-subtitle anim-fade-up anim-delay-1">Grab the instructions, feed them to your favorite AI, and start presenting in minutes.</p>
+                <div class="cta-buttons anim-fade-up anim-delay-2">
+                    <a href="https://github.com/medavisgmbh/presentation-in-minutes" class="cta-button primary">⭐ View on GitHub</a>
+                    <a href="https://github.com/medavisgmbh/presentation-in-minutes/blob/main/AGENT_INSTRUCTIONS.md" class="cta-button secondary">📄 Get Instructions</a>
+                </div>
+                <div class="cta-contact anim-fade-up anim-delay-3">
+                    <p style="font-size: 2rem; margin-bottom: 20px;">Now go make something awesome! 🚀</p>
+                    <p style="font-size: 1.4rem; color: #888;">
+                        <em>P.S. — Yes, this slide was also generated by the framework. The recursion never ends.</em> 🔄
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- UI Elements -->
+    <div class="slide-number"><span id="currentSlide">1</span> / <span id="totalSlides">13</span></div>
+    <div class="progress-bar" id="progressBar"></div>
+    <div class="laser-pointer" id="laserPointer"></div>
+    <div class="controls">
+        <button id="laserBtn" class="laser-toggle">🔴 L</button>
+        <button id="fullscreenBtn" class="fullscreen-toggle">⛶ F</button>
+        <button id="prevBtn">← Previous</button>
+        <button id="nextBtn">Next →</button>
+    </div>
+
+    <script>
+let currentSlide = 1;
+const slides = document.querySelectorAll('.slide');
+const totalSlides = slides.length;
+
+document.getElementById('totalSlides').textContent = totalSlides;
+updateProgressBar();
+
+function updateProgressBar() {
+    const progress = (currentSlide / totalSlides) * 100;
+    document.getElementById('progressBar').style.width = progress + '%';
+}
+
+function updateSlide(direction) {
+    const current = slides[currentSlide - 1];
+    
+    if (direction === 'next' && currentSlide < totalSlides) {
+        current.classList.remove('active');
+        current.classList.add('prev');
+        currentSlide++;
+        slides[currentSlide - 1].classList.add('active');
+        slides[currentSlide - 1].classList.remove('prev');
+    } else if (direction === 'prev' && currentSlide > 1) {
+        current.classList.remove('active');
+        currentSlide--;
+        slides[currentSlide - 1].classList.remove('prev');
+        slides[currentSlide - 1].classList.add('active');
+    }
+    
+    document.getElementById('currentSlide').textContent = currentSlide;
+    updateProgressBar();
+}
+
+// Auto-hide controls
+let mouseTimer = null;
+const controls = document.querySelector('.controls');
+
+function showControls() {
+    controls.classList.remove('hidden');
+    clearTimeout(mouseTimer);
+    mouseTimer = setTimeout(() => controls.classList.add('hidden'), 2000);
+}
+
+document.addEventListener('mousemove', showControls);
+showControls();
+
+document.getElementById('nextBtn').addEventListener('click', () => updateSlide('next'));
+document.getElementById('prevBtn').addEventListener('click', () => updateSlide('prev'));
+
+// Laser pointer
+const laserPointer = document.getElementById('laserPointer');
+const laserBtn = document.getElementById('laserBtn');
+let laserMode = false;
+
+function toggleLaser() {
+    laserMode = !laserMode;
+    laserPointer.classList.toggle('active', laserMode);
+    laserBtn.classList.toggle('active', laserMode);
+    document.body.classList.toggle('laser-mode', laserMode);
+}
+
+laserBtn.addEventListener('click', toggleLaser);
+document.getElementById('fullscreenBtn').addEventListener('click', toggleFullscreen);
+
+document.addEventListener('mousemove', (e) => {
+    if (laserMode) {
+        laserPointer.style.left = e.clientX + 'px';
+        laserPointer.style.top = e.clientY + 'px';
+    }
+});
+
+// Keyboard navigation
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === ' ') updateSlide('next');
+    else if (e.key === 'ArrowLeft') updateSlide('prev');
+    else if (e.key === 'f' || e.key === 'F') toggleFullscreen();
+    else if (e.key === 'l' || e.key === 'L') toggleLaser();
+    else if (e.key === 'Escape' && laserMode) toggleLaser();
+});
+
+// Touch/swipe
+let touchStartX = 0, touchEndX = 0;
+const swipeThreshold = 50;
+
+document.addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+}, { passive: true });
+
+document.addEventListener('touchend', (e) => {
+    touchEndX = e.changedTouches[0].screenX;
+    const diff = touchStartX - touchEndX;
+    if (Math.abs(diff) > swipeThreshold) {
+        updateSlide(diff > 0 ? 'next' : 'prev');
+    }
+}, { passive: true });
+
+// Fullscreen
+function toggleFullscreen() {
+    if (!document.fullscreenElement) document.documentElement.requestFullscreen();
+    else document.exitFullscreen();
+}
+    </script>
+</body>
+</html>

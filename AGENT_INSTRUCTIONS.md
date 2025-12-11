@@ -198,8 +198,8 @@ function init[ChartName](canvas) {
             datasets: [{
                 label: '[DATASET LABEL]',
                 data: [VALUE1, VALUE2],
-                backgroundColor: ['#dc3545', '#28a745'],
-                borderColor: ['#bd2130', '#218838'],
+                backgroundColor: ['#dc3545', '#79aa00'],
+                borderColor: ['#bd2130', '#4a772b'],
                 borderWidth: 2
             }]
         },
@@ -219,7 +219,7 @@ function init[ChartName](canvas) {
 **Rules:**
 - Each chart needs unique canvas ID
 - Register in `initChartsOnSlide()` function
-- Colors: red (#dc3545) for negative, green (#28a745) for positive, blue (#0066cc) for neutral
+- Colors: red (#dc3545) for negative, green (#79aa00) for positive, blue (#005ca9) for neutral
 
 ---
 
@@ -448,14 +448,15 @@ function init[ChartName](canvas) {
 ### Colors
 | Purpose | Hex | Usage |
 |---------|-----|-------|
-| Primary | `#0066cc` | Links, buttons, accents, bullets |
-| Primary Hover | `#0052a3` | Button hover states |
-| Text Primary | `#1a1a1a` | Headings |
-| Text Secondary | `#333` | Body text |
+| Primary | `#005ca9` | Links, buttons, accents, bullets |
+| Primary Hover | `#0083bf` | Button hover states |
+| Primary Light | `#00b6ed` | Highlights, shimmer effects |
+| Text Primary | `#333f4c` | Headings |
+| Text Secondary | `#333f4c` | Body text |
 | Text Muted | `#666` | Captions, attributions |
-| Background Dark | `#1a1a1a` | Page background |
-| Border | `#444` | Slide frame |
-| Success | `#28a745` / `#4caf50` | Positive indicators |
+| Background Dark | `#333f4c` | Page background |
+| Border | `#333f4c` | Slide frame |
+| Success | `#79aa00` / `#4a772b` | Positive indicators |
 | Warning | `#ff9800` | Caution indicators |
 | Error | `#dc3545` | Negative indicators |
 
@@ -742,7 +743,7 @@ Copy this entire stylesheet into the `<style>` tag:
 body {
     font-family: 'Calibri', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     overflow: hidden;
-    background: #1a1a1a;
+    background: #333f4c;
     padding: 20px;
 }
 
@@ -752,7 +753,7 @@ body {
     position: relative;
     overflow: hidden;
     border-radius: 12px;
-    border: 5px solid #444;
+    border: 5px solid #333f4c;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
 }
 
@@ -797,7 +798,7 @@ body {
 
 .slide.title-slide h1 {
     font-size: 5rem;
-    color: #1a1a1a;
+    color: #333f4c;
     margin-bottom: 30px;
     font-weight: 600;
     line-height: 1.2;
@@ -812,10 +813,10 @@ body {
 /* Content slides */
 h2 {
     font-size: 4rem;
-    color: #1a1a1a;
+    color: #333f4c;
     margin-bottom: 40px;
     font-weight: 600;
-    border-bottom: 4px solid #0066cc;
+    border-bottom: 4px solid #005ca9;
     padding-bottom: 15px;
     display: inline-block;
 }
@@ -858,7 +859,7 @@ ul li::before {
     content: "●";
     position: absolute;
     left: 0;
-    color: #0066cc;
+    color: #005ca9;
     font-size: 1.5rem;
 }
 
@@ -886,12 +887,12 @@ table {
 }
 
 th {
-    background: #0066cc;
+    background: #005ca9;
     color: white;
     padding: 20px;
     text-align: left;
     font-weight: 600;
-    border: 1px solid #0052a3;
+    border: 1px solid #0083bf;
 }
 
 td {
@@ -930,7 +931,7 @@ tr:nth-child(even) {
 }
 
 button {
-    background: #0066cc;
+    background: #005ca9;
     color: white;
     border: none;
     padding: 12px 25px;
@@ -943,18 +944,18 @@ button {
 }
 
 button:hover {
-    background: #0052a3;
+    background: #0083bf;
 }
 
 button:active {
-    background: #004080;
+    background: #333f4c;
 }
 
 .slide-number {
     position: fixed;
     bottom: 30px;
     left: 30px;
-    color: #1a1a1a;
+    color: #333f4c;
     font-size: 1.1rem;
     background: rgba(255, 255, 255, 0.9);
     padding: 8px 16px;
@@ -968,7 +969,7 @@ button:active {
     bottom: 0;
     left: 0;
     height: 4px;
-    background: #0066cc;
+    background: #005ca9;
     z-index: 100;
     transition: width 0.3s ease;
 }
@@ -1020,13 +1021,13 @@ body.laser-mode {
 }
 
 .highlight {
-    color: #0066cc;
+    color: #005ca9;
     font-weight: 600;
 }
 
 .badge {
     display: inline-block;
-    background: #0066cc;
+    background: #005ca9;
     color: white;
     padding: 10px 25px;
     border-radius: 4px;
@@ -1054,7 +1055,7 @@ body.laser-mode {
 
 .image-demo img {
     box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-    border: 3px solid #0066cc;
+    border: 3px solid #005ca9;
     border-radius: 8px;
 }
 
@@ -1113,17 +1114,17 @@ body.laser-mode {
     justify-content: center;
     width: 150px;
     height: 150px;
-    background: linear-gradient(135deg, #0066cc, #004499);
+    background: linear-gradient(135deg, #005ca9, #0083bf);
     color: white;
     border-radius: 12px;
     font-size: 1.2rem;
     font-weight: 600;
     margin: 15px;
-    box-shadow: 0 4px 15px rgba(0, 102, 204, 0.4);
+    box-shadow: 0 4px 15px rgba(0, 92, 169, 0.4);
 }
 
 .shimmer-text {
-    background: linear-gradient(90deg, #0066cc 0%, #00aaff 50%, #0066cc 100%);
+    background: linear-gradient(90deg, #005ca9 0%, #00b6ed 50%, #005ca9 100%);
     background-size: 200% auto;
     -webkit-background-clip: text;
     background-clip: text;
@@ -1146,14 +1147,14 @@ body.laser-mode {
 
 .two-column .column h3 {
     margin-top: 0;
-    border-bottom: 3px solid #0066cc;
+    border-bottom: 3px solid #005ca9;
     padding-bottom: 10px;
 }
 
 /* Quote/Callout styling */
 .quote-block {
     background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-    border-left: 6px solid #0066cc;
+    border-left: 6px solid #005ca9;
     padding: 40px 50px;
     margin: 30px 0;
     position: relative;
@@ -1166,7 +1167,7 @@ body.laser-mode {
     top: 10px;
     left: 20px;
     font-size: 5rem;
-    color: #0066cc;
+    color: #005ca9;
     opacity: 0.3;
     font-family: Georgia, serif;
     line-height: 1;
@@ -1188,7 +1189,7 @@ body.laser-mode {
 
 .callout {
     background: #e7f3ff;
-    border: 2px solid #0066cc;
+    border: 2px solid #005ca9;
     border-radius: 8px;
     padding: 30px 40px;
     margin: 30px 0;
@@ -1201,7 +1202,7 @@ body.laser-mode {
 
 .callout.success {
     background: #e8f5e9;
-    border-color: #4caf50;
+    border-color: #79aa00;
 }
 
 .callout p { margin-bottom: 0; }
@@ -1226,7 +1227,7 @@ body.laser-mode {
 .code-block::-webkit-scrollbar-thumb { background: #666; border-radius: 4px; }
 .code-block::-webkit-scrollbar-thumb:hover { background: #888; }
 
-.code-block .comment { color: #6a9955; }
+.code-block .comment { color: #658e1e; }
 .code-block .keyword { color: #569cd6; }
 .code-block .string { color: #ce9178; }
 .code-block .function { color: #dcdcaa; }
@@ -1298,12 +1299,12 @@ body.laser-mode {
 .icon-item .icon svg {
     width: 32px;
     height: 32px;
-    fill: #0066cc;
+    fill: #005ca9;
 }
 
 .icon-item .icon-content h4 {
     font-size: 1.8rem;
-    color: #1a1a1a;
+    color: #333f4c;
     margin-bottom: 8px;
     font-weight: 600;
 }
@@ -1353,20 +1354,20 @@ body.laser-mode {
 }
 
 .cta-button.primary {
-    background: #0066cc;
+    background: #005ca9;
     color: white;
-    box-shadow: 0 4px 15px rgba(0, 102, 204, 0.4);
+    box-shadow: 0 4px 15px rgba(0, 92, 169, 0.4);
 }
 
 .cta-button.primary:hover {
     transform: translateY(-3px);
-    box-shadow: 0 6px 20px rgba(0, 102, 204, 0.5);
+    box-shadow: 0 6px 20px rgba(0, 92, 169, 0.5);
 }
 
 .cta-button.secondary {
     background: white;
-    color: #0066cc;
-    border: 3px solid #0066cc;
+    color: #005ca9;
+    border: 3px solid #005ca9;
 }
 
 .cta-button.secondary:hover {
@@ -1381,7 +1382,7 @@ body.laser-mode {
 }
 
 .cta-contact a {
-    color: #0066cc;
+    color: #005ca9;
     text-decoration: none;
     font-weight: 600;
 }
@@ -1444,6 +1445,6 @@ body.laser-mode {
     }
     .slide-content { padding: 40px 60px; }
     .chart-container canvas { max-width: 100%; }
-    .cta-button { border: 2px solid #0066cc !important; }
+    .cta-button { border: 2px solid #005ca9 !important; }
 }
 ```

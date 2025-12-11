@@ -1,0 +1,1091 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Goethe: The Stuff They Don’t Tell You At School</title>
+    <style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Calibri', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow: hidden;
+    background: #1a1a1a;
+    padding: 20px;
+}
+
+.slide-container {
+    width: calc(100vw - 40px);
+    height: calc(100vh - 40px);
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px;
+    border: 5px solid #444;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+}
+
+.slide {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 60px 80px;
+    opacity: 0;
+    transform: translateX(100%);
+    transition: all 0.5s ease-in-out;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.slide.active {
+    opacity: 1;
+    transform: translateX(0);
+    z-index: 10;
+}
+
+.slide.prev {
+    transform: translateX(-100%);
+}
+
+.slide-content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Title slide specific */
+.slide.title-slide .slide-content {
+    justify-content: center;
+    align-items: flex-start;
+    padding-left: 100px;
+}
+
+.slide.title-slide h1 {
+    font-size: 5rem;
+    color: #1a1a1a;
+    margin-bottom: 30px;
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+.slide.title-slide .subtitle {
+    font-size: 2.7rem;
+    color: #4a4a4a;
+    margin-bottom: 40px;
+}
+
+/* Content slides */
+h2 {
+    font-size: 4rem;
+    color: #1a1a1a;
+    margin-bottom: 40px;
+    font-weight: 600;
+    border-bottom: 4px solid #0066cc;
+    padding-bottom: 15px;
+    display: inline-block;
+}
+
+h3 {
+    font-size: 2.5rem;
+    color: #333;
+    margin-bottom: 20px;
+    margin-top: 30px;
+    font-weight: 600;
+}
+
+p {
+    font-size: 2.7rem;
+    line-height: 1.6;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+ul, ol {
+    font-size: 2.7rem;
+    line-height: 1.8;
+    color: #333;
+    margin-left: 0;
+    list-style-position: outside;
+    padding-left: 40px;
+}
+
+ul {
+    list-style-type: none;
+}
+
+ul li {
+    margin-bottom: 20px;
+    padding-left: 30px;
+    position: relative;
+}
+
+ul li::before {
+    content: "●";
+    position: absolute;
+    left: 0;
+    color: #0066cc;
+    font-size: 1.5rem;
+}
+
+ol {
+    list-style-type: decimal;
+}
+
+ol li {
+    margin-bottom: 20px;
+    padding-left: 15px;
+}
+
+strong {
+    color: #000;
+    font-weight: 600;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 30px 0;
+    font-size: 2rem;
+    background: white;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+th {
+    background: #0066cc;
+    color: white;
+    padding: 20px;
+    text-align: left;
+    font-weight: 600;
+    border: 1px solid #0052a3;
+}
+
+td {
+    padding: 18px 20px;
+    border: 1px solid #ddd;
+    color: #333;
+}
+
+tr:nth-child(even) {
+    background: #f5f5f5;
+}
+
+.chart-container {
+    width: 100%;
+    max-width: 900px;
+    margin: 30px 0;
+    background: white;
+    padding: 30px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.controls {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    display: flex;
+    gap: 15px;
+    z-index: 100;
+    opacity: 1;
+    transition: opacity 0.5s ease;
+}
+
+.controls.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+button {
+    background: #0066cc;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    font-size: 1.1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: 'Calibri', sans-serif;
+    font-weight: 600;
+    transition: background 0.2s ease;
+}
+
+button:hover {
+    background: #0052a3;
+}
+
+button:active {
+    background: #004080;
+}
+
+.slide-number {
+    position: fixed;
+    bottom: 30px;
+    left: 30px;
+    color: #1a1a1a;
+    font-size: 1.1rem;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 8px 16px;
+    border-radius: 4px;
+    z-index: 100;
+    font-weight: 600;
+}
+
+.progress-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    height: 4px;
+    background: #0066cc;
+    z-index: 100;
+    transition: width 0.3s ease;
+}
+
+/* Laser pointer mode */
+.laser-pointer {
+    position: fixed;
+    width: 12px;
+    height: 12px;
+    background: radial-gradient(circle, #ff0000 0%, #ff0000 40%, rgba(255, 0, 0, 0.4) 70%, transparent 100%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 10px 3px rgba(255, 0, 0, 0.6);
+    display: none;
+}
+
+.laser-pointer.active {
+    display: block;
+}
+
+body.laser-mode {
+    cursor: none;
+}
+
+.laser-toggle {
+    background: #666;
+    padding: 12px 15px;
+    font-size: 0.9rem;
+}
+
+.laser-toggle.active {
+    background: #993333;
+}
+
+.laser-toggle.active:hover {
+    background: #802929;
+}
+
+.fullscreen-toggle {
+    background: #666;
+    padding: 12px 15px;
+    font-size: 0.9rem;
+}
+
+.fullscreen-toggle:hover {
+    background: #555;
+}
+
+.highlight {
+    color: #0066cc;
+    font-weight: 600;
+}
+
+.badge {
+    display: inline-block;
+    background: #0066cc;
+    color: white;
+    padding: 10px 25px;
+    border-radius: 4px;
+    font-size: 1.6rem;
+    margin: 10px 15px 10px 0;
+    font-weight: 600;
+}
+
+/* Background image classes */
+.bg-first-slide {
+    background-image: url('https://raw.githubusercontent.com/medavisgmbh/presentation-in-minutes/refs/heads/main/data/presentation_first_slide.png');
+}
+
+.bg-default-slide {
+    background-image: url('https://raw.githubusercontent.com/medavisgmbh/presentation-in-minutes/refs/heads/main/data/presentation_default_slide.png');
+}
+
+.image-demo {
+    display: flex;
+    gap: 30px;
+    margin: 30px 0;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.image-demo img {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    border: 3px solid #0066cc;
+    border-radius: 8px;
+}
+
+/* Animation classes */
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInLeft {
+    from { opacity: 0; transform: translateX(-30px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes fadeInRight {
+    from { opacity: 0; transform: translateX(30px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes scaleIn {
+    from { opacity: 0; transform: scale(0.8); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+@keyframes shimmer {
+    0% { background-position: -200% center; }
+    100% { background-position: 200% center; }
+}
+
+.slide.active .anim-fade-up { animation: fadeInUp 3s ease-out forwards; }
+.slide.active .anim-fade-left { animation: fadeInLeft 3s ease-out forwards; }
+.slide.active .anim-fade-right { animation: fadeInRight 3s ease-out forwards; }
+.slide.active .anim-scale { animation: scaleIn 2.4s ease-out forwards; }
+.slide.active .anim-pulse { animation: pulse 2.5s ease-in-out infinite; }
+
+.anim-delay-1 { animation-delay: 0.6s !important; opacity: 0; }
+.anim-delay-2 { animation-delay: 1.2s !important; opacity: 0; }
+.anim-delay-3 { animation-delay: 1.8s !important; opacity: 0; }
+.anim-delay-4 { animation-delay: 2.4s !important; opacity: 0; }
+.anim-delay-5 { animation-delay: 3.0s !important; opacity: 0; }
+
+.slide.active .anim-delay-1,
+.slide.active .anim-delay-2,
+.slide.active .anim-delay-3,
+.slide.active .anim-delay-4,
+.slide.active .anim-delay-5 { opacity: 1; }
+
+.animation-demo-box {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 150px;
+    height: 150px;
+    background: linear-gradient(135deg, #0066cc, #004499);
+    color: white;
+    border-radius: 12px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 15px;
+    box-shadow: 0 4px 15px rgba(0, 102, 204, 0.4);
+}
+
+.shimmer-text {
+    background: linear-gradient(90deg, #0066cc 0%, #00aaff 50%, #0066cc 100%);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shimmer 3s linear infinite;
+}
+
+/* Two-column layout */
+.two-column {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
+    margin-top: 30px;
+}
+
+.two-column .column {
+    display: flex;
+    flex-direction: column;
+}
+
+.two-column .column h3 {
+    margin-top: 0;
+    border-bottom: 3px solid #0066cc;
+    padding-bottom: 10px;
+}
+
+/* Quote/Callout styling */
+.quote-block {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-left: 6px solid #0066cc;
+    padding: 40px 50px;
+    margin: 30px 0;
+    position: relative;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.quote-block::before {
+    content: '"';
+    position: absolute;
+    top: 10px;
+    left: 20px;
+    font-size: 5rem;
+    color: #0066cc;
+    opacity: 0.3;
+    font-family: Georgia, serif;
+    line-height: 1;
+}
+
+.quote-block p {
+    font-size: 2.4rem;
+    font-style: italic;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.quote-block .attribution {
+    font-size: 1.6rem;
+    font-style: normal;
+    color: #666;
+    text-align: right;
+}
+
+.callout {
+    background: #e7f3ff;
+    border: 2px solid #0066cc;
+    border-radius: 8px;
+    padding: 30px 40px;
+    margin: 30px 0;
+}
+
+.callout.warning {
+    background: #fff3e0;
+    border-color: #ff9800;
+}
+
+.callout.success {
+    background: #e8f5e9;
+    border-color: #4caf50;
+}
+
+.callout p { margin-bottom: 0; }
+
+/* Code block styling */
+.code-block {
+    background: #1e1e1e;
+    color: #d4d4d4;
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 1.6rem;
+    padding: 30px;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin: 30px 0;
+    line-height: 1.6;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    white-space: pre;
+}
+
+.code-block::-webkit-scrollbar { height: 8px; }
+.code-block::-webkit-scrollbar-track { background: #333; border-radius: 4px; }
+.code-block::-webkit-scrollbar-thumb { background: #666; border-radius: 4px; }
+.code-block::-webkit-scrollbar-thumb:hover { background: #888; }
+
+.code-block .comment { color: #6a9955; }
+.code-block .keyword { color: #569cd6; }
+.code-block .string { color: #ce9178; }
+.code-block .function { color: #dcdcaa; }
+.code-block .number { color: #b5cea8; }
+.code-block .tag { color: #569cd6; }
+.code-block .attribute { color: #9cdcfe; }
+
+/* Code scroll indicator (optional wrapper) */
+.code-wrapper { position: relative; }
+.code-wrapper::after {
+    content: '→';
+    position: absolute;
+    right: 10px;
+    bottom: 40px;
+    color: #666;
+    font-size: 1.2rem;
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+}
+.code-wrapper.has-overflow::after { opacity: 1; }
+
+.code-header {
+    background: #333;
+    color: #888;
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    border-radius: 8px 8px 0 0;
+    margin-bottom: -8px;
+    font-family: 'Consolas', monospace;
+}
+
+/* Icon grid */
+.icon-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    margin: 30px 0;
+}
+
+.icon-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 25px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.icon-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+}
+
+.icon-item .icon {
+    font-size: 3rem;
+    flex-shrink: 0;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #e7f3ff;
+    border-radius: 12px;
+}
+
+.icon-item .icon svg {
+    width: 32px;
+    height: 32px;
+    fill: #0066cc;
+}
+
+.icon-item .icon-content h4 {
+    font-size: 1.8rem;
+    color: #1a1a1a;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.icon-item .icon-content p {
+    font-size: 1.4rem;
+    color: #666;
+    margin: 0;
+    line-height: 1.4;
+}
+
+/* Call-to-Action slide */
+.cta-slide .slide-content {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.cta-slide h2 {
+    font-size: 4.5rem;
+    border-bottom: none;
+    margin-bottom: 30px;
+}
+
+.cta-slide .cta-subtitle {
+    font-size: 2.4rem;
+    color: #555;
+    margin-bottom: 50px;
+    max-width: 800px;
+}
+
+.cta-buttons {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.cta-button {
+    display: inline-block;
+    padding: 20px 50px;
+    font-size: 1.8rem;
+    font-weight: 600;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.cta-button.primary {
+    background: #0066cc;
+    color: white;
+    box-shadow: 0 4px 15px rgba(0, 102, 204, 0.4);
+}
+
+.cta-button.primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 102, 204, 0.5);
+}
+
+.cta-button.secondary {
+    background: white;
+    color: #0066cc;
+    border: 3px solid #0066cc;
+}
+
+.cta-button.secondary:hover {
+    transform: translateY(-3px);
+    background: #f0f7ff;
+}
+
+.cta-contact {
+    margin-top: 50px;
+    font-size: 1.6rem;
+    color: #666;
+}
+
+.cta-contact a {
+    color: #0066cc;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+/* Mobile responsive styles */
+@media (max-width: 768px) {
+    .slide { padding: 30px 40px; }
+    .slide.title-slide .slide-content { padding-left: 20px; }
+    .slide.title-slide h1 { font-size: 2.5rem; }
+    .slide.title-slide .subtitle { font-size: 1.4rem; }
+    h2 { font-size: 2rem; margin-bottom: 20px; }
+    h3 { font-size: 1.4rem; }
+    p, ul, ol { font-size: 1.3rem; line-height: 1.5; }
+    ul li, ol li { margin-bottom: 10px; }
+    table { font-size: 1rem; }
+    th, td { padding: 10px; }
+    .badge { font-size: 1rem; padding: 6px 12px; }
+    .controls { bottom: 15px; right: 15px; gap: 8px; }
+    button { padding: 10px 15px; font-size: 0.9rem; }
+    .slide-number { bottom: 15px; left: 15px; font-size: 0.9rem; padding: 6px 12px; }
+    .chart-container { padding: 15px; }
+    .image-demo img { max-width: 100%; height: auto; }
+    .two-column { grid-template-columns: 1fr; gap: 30px; }
+    .quote-block { padding: 25px 30px; }
+    .quote-block p { font-size: 1.4rem; }
+    .quote-block .attribution { font-size: 1.1rem; }
+    .code-block { font-size: 1rem; padding: 15px; }
+    .icon-grid { grid-template-columns: 1fr; }
+    .icon-item .icon-content h4 { font-size: 1.3rem; }
+    .icon-item .icon-content p { font-size: 1.1rem; }
+    .cta-slide h2 { font-size: 2.5rem; }
+    .cta-slide .cta-subtitle { font-size: 1.4rem; }
+    .cta-button { padding: 15px 30px; font-size: 1.2rem; }
+}
+
+/* Print styles for PDF export */
+@media print {
+    @page { size: landscape; margin: 0; }
+    body { background: white; padding: 0; margin: 0; }
+    .slide-container { width: 100%; height: auto; border: none; border-radius: 0; box-shadow: none; overflow: visible; }
+    .slide {
+        position: relative !important;
+        transform: none !important;
+        opacity: 1 !important;
+        page-break-after: always;
+        page-break-inside: avoid;
+        height: 100vh;
+        width: 100vw;
+        display: flex !important;
+        break-after: page;
+    }
+    .slide.bg-default-slide { background-image: none !important; background-color: white !important; }
+    .slide.bg-first-slide { background-size: cover !important; background-position: center !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+    .slide:last-child { page-break-after: auto; }
+    .slide.prev { transform: none !important; }
+    .controls, .slide-number, .progress-bar, .laser-pointer { display: none !important; }
+    .slide { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; color-adjust: exact !important; }
+    .anim-fade-up, .anim-fade-left, .anim-fade-right, .anim-scale, .anim-delay-1, .anim-delay-2, .anim-delay-3, .anim-delay-4, .anim-delay-5 {
+        opacity: 1 !important; transform: none !important; animation: none !important;
+    }
+    .slide-content { padding: 40px 60px; }
+    .chart-container canvas { max-width: 100%; }
+    .cta-button { border: 2px solid #0066cc !important; }
+}
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+    <div class="slide-container">
+        <!-- Slide 1: Title -->
+        <div class="slide title-slide active bg-first-slide" data-slide="1">
+            <div class="slide-content">
+                <h1 class="anim-fade-up">Goethe:<br> The Stuff They Don’t Tell You At School</h1>
+                <p class="subtitle anim-fade-up anim-delay-1">Unknown sides of Johann Wolfgang von Goethe</p>
+                <div class="anim-fade-up anim-delay-2">
+                    <span class="badge">📚 Polymath</span>
+                    <span class="badge">🧪 Science Geek</span>
+                    <span class="badge">🍷 Wine Snob</span>
+                    <span class="badge">🌋 Rock Collector</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 2: Bullet list – Strange career moves -->
+        <div class="slide bg-default-slide" data-slide="2">
+            <div class="slide-content">
+                <h2 class="anim-fade-up">Strange Career Moves & Titles</h2>
+                <p class="anim-fade-up anim-delay-1">Behind the “national poet” branding, Goethe’s CV is… odd.</p>
+                <ul>
+                    <li class="anim-fade-left anim-delay-1">
+                        <strong>Honorary Doctor of Medicine</strong> – 1794, University of Jena, despite never studying medicine formally.
+                    </li>
+                    <li class="anim-fade-left anim-delay-2">
+                        <strong>War Bureaucrat</strong> – As head of the war commission in Weimar, he helped recruit soldiers (including mercenaries) during the era of the American Revolution.
+                    </li>
+                    <li class="anim-fade-left anim-delay-3">
+                        <strong>Shadow Author “Plinius”</strong> – Early works published under a pseudonym, before “Goethe” became a brand.
+                    </li>
+                    <li class="anim-fade-left anim-delay-4">
+                        <strong>Terrified of Dentists</strong> – Chronic toothache, “swollen cheeks”, and he only went to the dentist in emergencies.
+                    </li>
+                    <li class="anim-fade-left anim-delay-5">
+                        <strong>Minister, Theatre Director, Court Insider</strong> – For decades he was more senior bureaucrat than starving artist.
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 3: Two-column – Scientist vs Poet myth -->
+        <div class="slide bg-default-slide" data-slide="3">
+            <div class="slide-content">
+                <h2 class="anim-fade-up">Goethe the Scientist vs. The Schoolbook Myth</h2>
+                <div class="two-column">
+                    <div class="column anim-fade-left anim-delay-1">
+                        <h3>Myth: “Just a Romantic Poet”</h3>
+                        <ul>
+                            <li><strong>Only</strong> known for <em>Faust</em> and <em>Werther</em>.</li>
+                            <li>Occasional “gentleman dilettante” in science.</li>
+                            <li>Mostly a passive admirer of nature.</li>
+                            <li>Seen as anti-Newton crank, then politely ignored.</li>
+                        </ul>
+                    </div>
+                    <div class="column anim-fade-right anim-delay-2">
+                        <h3>Reality: Obsessive Natural Scientist</h3>
+                        <ul>
+                            <li><strong>Plant Morphology Pioneer</strong> – “Metamorphosis of Plants” basically sketches serial homology of leaves.</li>
+                            <li><strong>Comparative Anatomy</strong> – Work on skull and intermaxillary bone, in dialogue with early anatomists.</li>
+                            <li><strong>Colour Theory</strong> – A massive, stubborn counter-project to Newton, focusing on perception and psychology.</li>
+                            <li><strong>Goethean Science</strong> – A whole methodological tradition built on his “living experience” approach to phenomena.</li>
+                        </ul>
+                    </div>
+                </div>
+                <p style="margin-top: 30px;" class="anim-fade-up anim-delay-3">
+                    <span class="shimmer-text">He took his science so seriously that, late in life, he was prouder of his colour theory than of his poetry.</span>
+                </p>
+            </div>
+        </div>
+
+        <!-- Slide 4: Icon grid – Unexpected obsessions -->
+        <div class="slide bg-default-slide" data-slide="4">
+            <div class="slide-content">
+                <h2 class="anim-fade-up">Unexpected Obsessions</h2>
+                <p class="anim-fade-up anim-delay-1">Goethe’s hobbies looked suspiciously like side quests in a very nerdy RPG.</p>
+                <div class="icon-grid">
+                    <!-- Wine -->
+                    <div class="icon-item anim-fade-up anim-delay-1">
+                        <div class="icon">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M15.5 12C17.43 10.59 19 8.11 19 5V3H5V5C5 8.11 6.57 10.59 8.5 12C9.44 12.68 10 13.8 10 15V19H8V21H16V19H14V15C14 13.8 14.56 12.68 15.5 12Z" />
+                            </svg>
+                        </div>
+                        <div class="icon-content">
+                            <h4>Certified Wine Diva</h4>
+                            <p>Not just “likes wine”: obsessively loyal to Johannisberger Riesling and Würzburger Stein – anything else made him grumpy.</p>
+                        </div>
+                    </div>
+
+                    <!-- Rocks -->
+                    <div class="icon-item anim-fade-up anim-delay-2">
+                        <div class="icon">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M12 2L2 9l10 13 10-13-10-7zm0 3.15L17.74 9 12 18.25 6.26 9 12 5.15z" />
+                            </svg>
+                        </div>
+                        <div class="icon-content">
+                            <h4>17,800 Rocks… Seriously</h4>
+                            <p>He built one of Europe’s largest private mineral collections. A mineral was even named after him: <em>goethite</em>.</p>
+                        </div>
+                    </div>
+
+                    <!-- Weather / Barometer -->
+                    <div class="icon-item anim-fade-up anim-delay-3">
+                        <div class="icon">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M12 3a9 9 0 1 0 9 9 9.01 9.01 0 0 0-9-9zm0 2a7 7 0 1 1-7 7 7.01 7.01 0 0 1 7-7zm.5 3h-1v5l4 2.4.5-.84-3.5-2.06z" />
+                            </svg>
+                        </div>
+                        <div class="icon-content">
+                            <h4>Barometer & Cloud Watcher</h4>
+                            <p>Kept instruments, logged weather, and loved seeing “living” patterns in meteorology, not just numbers.</p>
+                        </div>
+                    </div>
+
+                    <!-- Plants / Palm -->
+                    <div class="icon-item anim-fade-up anim-delay-4">
+                        <div class="icon">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M12 2C9.5 2 7.5 3.5 7 6c2-1 3.5-.5 4.5.5C11 4.5 13 3 15 3c-1 2-1 3.5 0 4.5C16.5 6.5 18 6 19.5 6 19 3.5 17 2 14.5 2 13.3 2 12.3 2.4 12 3 11.7 2.4 10.7 2 9.5 2H12zM11 8l-1 12h2l-1-12z" />
+                            </svg>
+                        </div>
+                        <div class="icon-content">
+                            <h4>The Palm that Blew His Mind</h4>
+                            <p>“Goethe’s palm” in Padua helped trigger his idea that all plant organs are transformations of a basic archetypal leaf.</p>
+                        </div>
+                    </div>
+
+                    <!-- Psychology of colour -->
+                    <div class="icon-item anim-fade-up anim-delay-5">
+                        <div class="icon">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M12 3C7.58 3 4 6.03 4 10c0 2.38 1.19 4.47 3.09 5.78L7 21l4.18-2.39C11.45 18.87 11.72 19 12 19c4.42 0 8-3.03 8-7s-3.58-9-8-9zm-1 5h2v5h-2V8zm0 6h2v2h-2v-2z" />
+                            </svg>
+                        </div>
+                        <div class="icon-content">
+                            <h4>Colour = Mood Machine</h4>
+                            <p>His colour theory is less physics, more psychology & art – inspiring painters and even philosophers later on.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Chart – How he spent his energy -->
+        <div class="slide bg-default-slide" data-slide="5">
+            <div class="slide-content">
+                <h2 class="anim-fade-up">How Goethe Spent His Energy (Very Roughly)</h2>
+                <p class="anim-fade-up anim-delay-1">Not data from his time tracker – but a realistic split of where his life force went.</p>
+                <div class="chart-container anim-scale anim-delay-2">
+                    <canvas id="goetheTimeChart"></canvas>
+                </div>
+                <p class="anim-fade-up anim-delay-3">
+                    <span class="highlight">Takeaway:</span> calling him “just a writer” is like calling Da Vinci “guy who doodled a bit”. Wildly incomplete.
+                </p>
+            </div>
+        </div>
+
+        <!-- Slide 6: Quote / Callout – Weird priorities & fears -->
+        <div class="slide bg-default-slide" data-slide="6">
+            <div class="slide-content">
+                <h2 class="anim-fade-up">Weird Fears, Weirder Pride</h2>
+                <div class="quote-block anim-fade-up anim-delay-1">
+                    <p>“I do not pride myself on my poetic works, but on the fact that in the difficult science of colour I alone in my century know what is right.”</p>
+                    <div class="attribution">— Goethe, late in life (paraphrased)</div>
+                </div>
+
+                <div class="callout anim-fade-left anim-delay-2">
+                    <p><strong>💡 Pro Tip:</strong> To really “get” Goethe, don’t start with <em>Faust</em>. Start with his obsessions – plants, colours, rocks – and work backwards.</p>
+                </div>
+
+                <div class="callout warning anim-fade-right anim-delay-3">
+                    <p><strong>⚠️ Warning:</strong> His colour theory is <em>not</em> good physics. Treat it as a phenomenology of perception, not as a rival to Newton.</p>
+                </div>
+
+                <div class="callout success anim-fade-up anim-delay-4">
+                    <p><strong>✅ Success Story:</strong> Artists, philosophers and “Goethean scientists” still mine his way of looking at phenomena for inspiration today.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: CTA – Reread Goethe -->
+        <div class="slide cta-slide bg-default-slide" data-slide="7">
+            <div class="slide-content">
+                <h2 class="anim-scale">Read Goethe Like a Weirdo (i.e. Properly)</h2>
+                <p class="cta-subtitle anim-fade-up anim-delay-1">
+                    You’ve met the rock-hoarding, wine-obsessed, colour-theory-flexing side of Goethe.
+                    Next step: follow the obsessions yourself.
+                </p>
+                <div class="cta-buttons anim-fade-up anim-delay-2">
+                    <a href="https://en.wikipedia.org/wiki/Goethean_science" class="cta-button primary" target="_blank" rel="noopener noreferrer">
+                        Explore Goethean Science
+                    </a>
+                    <a href="https://en.wikipedia.org/wiki/Theory_of_Colours" class="cta-button secondary" target="_blank" rel="noopener noreferrer">
+                        Peek into <em>Theory of Colours</em>
+                    </a>
+                </div>
+                <div class="cta-contact anim-fade-up anim-delay-3">
+                    Want more strange classics? Ask your future self: <strong>“What else did school oversimplify?”</strong>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- UI ELEMENTS -->
+    <div class="slide-number"><span id="currentSlide">1</span> / <span id="totalSlides">7</span></div>
+    <div class="progress-bar" id="progressBar"></div>
+    <div class="laser-pointer" id="laserPointer"></div>
+    <div class="controls">
+        <button id="laserBtn" class="laser-toggle">🔴 L</button>
+        <button id="fullscreenBtn" class="fullscreen-toggle">⛶ F</button>
+        <button id="prevBtn">← Previous</button>
+        <button id="nextBtn">Next →</button>
+    </div>
+
+    <script>
+let currentSlide = 1;
+const slides = document.querySelectorAll('.slide');
+const totalSlides = slides.length;
+
+document.getElementById('totalSlides').textContent = totalSlides;
+updateProgressBar();
+
+function updateProgressBar() {
+    const progress = (currentSlide / totalSlides) * 100;
+    document.getElementById('progressBar').style.width = progress + '%';
+}
+
+function updateSlide(direction) {
+    const current = slides[currentSlide - 1];
+    
+    if (direction === 'next' && currentSlide < totalSlides) {
+        current.classList.remove('active');
+        current.classList.add('prev');
+        currentSlide++;
+        slides[currentSlide - 1].classList.add('active');
+        slides[currentSlide - 1].classList.remove('prev');
+    } else if (direction === 'prev' && currentSlide > 1) {
+        current.classList.remove('active');
+        currentSlide--;
+        slides[currentSlide - 1].classList.remove('prev');
+        slides[currentSlide - 1].classList.add('active');
+    }
+    
+    document.getElementById('currentSlide').textContent = currentSlide;
+    updateProgressBar();
+    initChartsOnSlide(slides[currentSlide - 1]);
+}
+
+function initChartsOnSlide(slide) {
+    const canvases = slide.querySelectorAll('canvas:not([data-initialized])');
+    canvases.forEach(canvas => {
+        if (canvas.id === 'goetheTimeChart') {
+            initGoetheTimeChart(canvas);
+        }
+        canvas.setAttribute('data-initialized', 'true');
+    });
+}
+
+function initGoetheTimeChart(canvas) {
+    const ctx = canvas.getContext('2d');
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Literature', 'Science', 'Administration', 'Travel', 'Letters & Networks'],
+            datasets: [{
+                label: 'Very Rough Share of Life Energy',
+                data: [40, 25, 15, 10, 10],
+                backgroundColor: ['#0066cc', '#28a745', '#ff9800', '#0066cc', '#28a745'],
+                borderColor: ['#004c99', '#218838', '#f57c00', '#004c99', '#218838'],
+                borderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+                legend: {
+                    labels: {
+                        font: { size: 18, family: 'Calibri' }
+                    }
+                }
+            },
+            scales: {
+                y: { 
+                    beginAtZero: true,
+                    ticks: { font: { size: 16, family: 'Calibri' } }
+                },
+                x: {
+                    ticks: { font: { size: 16, family: 'Calibri' } }
+                }
+            }
+        }
+    });
+}
+
+// Auto-hide controls
+let mouseTimer = null;
+const controls = document.querySelector('.controls');
+
+function showControls() {
+    controls.classList.remove('hidden');
+    clearTimeout(mouseTimer);
+    mouseTimer = setTimeout(() => controls.classList.add('hidden'), 2000);
+}
+
+document.addEventListener('mousemove', showControls);
+showControls();
+
+document.getElementById('nextBtn').addEventListener('click', () => updateSlide('next'));
+document.getElementById('prevBtn').addEventListener('click', () => updateSlide('prev'));
+
+// Laser pointer
+const laserPointer = document.getElementById('laserPointer');
+const laserBtn = document.getElementById('laserBtn');
+let laserMode = false;
+
+function toggleLaser() {
+    laserMode = !laserMode;
+    laserPointer.classList.toggle('active', laserMode);
+    laserBtn.classList.toggle('active', laserMode);
+    document.body.classList.toggle('laser-mode', laserMode);
+}
+
+laserBtn.addEventListener('click', toggleLaser);
+document.getElementById('fullscreenBtn').addEventListener('click', toggleFullscreen);
+
+document.addEventListener('mousemove', (e) => {
+    if (laserMode) {
+        laserPointer.style.left = e.clientX + 'px';
+        laserPointer.style.top = e.clientY + 'px';
+    }
+});
+
+// Keyboard navigation
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === ' ') updateSlide('next');
+    else if (e.key === 'ArrowLeft') updateSlide('prev');
+    else if (e.key === 'f' || e.key === 'F') toggleFullscreen();
+    else if (e.key === 'l' || e.key === 'L') toggleLaser();
+    else if (e.key === 'Escape' && laserMode) toggleLaser();
+});
+
+// Touch/swipe
+let touchStartX = 0, touchEndX = 0;
+const swipeThreshold = 50;
+
+document.addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+}, { passive: true });
+
+document.addEventListener('touchend', (e) => {
+    touchEndX = e.changedTouches[0].screenX;
+    const diff = touchStartX - touchEndX;
+    if (Math.abs(diff) > swipeThreshold) {
+        updateSlide(diff > 0 ? 'next' : 'prev');
+    }
+}, { passive: true });
+
+// Fullscreen
+function toggleFullscreen() {
+    if (!document.fullscreenElement) document.documentElement.requestFullscreen();
+    else document.exitFullscreen();
+}
+    </script>
+</body>
+</html>
