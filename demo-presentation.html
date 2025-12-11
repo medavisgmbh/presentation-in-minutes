@@ -1,0 +1,1438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Powered Presentation Framework</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Calibri', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+            background: #1a1a1a;
+            padding: 20px;
+        }
+
+        .slide-container {
+            width: calc(100vw - 40px);
+            height: calc(100vh - 40px);
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px;
+            border: 5px solid #444;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+        }
+
+        .slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            padding: 60px 80px;
+            opacity: 0;
+            transform: translateX(100%);
+            transition: all 0.5s ease-in-out;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .slide.active {
+            opacity: 1;
+            transform: translateX(0);
+            z-index: 10;
+        }
+
+        .slide.prev {
+            transform: translateX(-100%);
+        }
+
+        .slide-content {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Title slide specific */
+        .slide.title-slide .slide-content {
+            justify-content: center;
+            align-items: flex-start;
+            padding-left: 100px;
+        }
+
+        .slide.title-slide h1 {
+            font-size: 5rem;
+            color: #1a1a1a;
+            margin-bottom: 30px;
+            font-weight: 600;
+            line-height: 1.2;
+        }
+
+        .slide.title-slide .subtitle {
+            font-size: 2.7rem;
+            color: #4a4a4a;
+            margin-bottom: 40px;
+        }
+
+        /* Content slides */
+        h2 {
+            font-size: 4rem;
+            color: #1a1a1a;
+            margin-bottom: 40px;
+            font-weight: 600;
+            border-bottom: 4px solid #0066cc;
+            padding-bottom: 15px;
+            display: inline-block;
+        }
+
+        h3 {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 20px;
+            margin-top: 30px;
+            font-weight: 600;
+        }
+
+        p {
+            font-size: 2.7rem;
+            line-height: 1.6;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        ul, ol {
+            font-size: 2.7rem;
+            line-height: 1.8;
+            color: #333;
+            margin-left: 0;
+            list-style-position: outside;
+            padding-left: 40px;
+        }
+
+        ul {
+            list-style-type: none;
+        }
+
+        ul li {
+            margin-bottom: 20px;
+            padding-left: 30px;
+            position: relative;
+        }
+
+        ul li::before {
+            content: "●";
+            position: absolute;
+            left: 0;
+            color: #0066cc;
+            font-size: 1.5rem;
+        }
+
+        ol {
+            list-style-type: decimal;
+        }
+
+        ol li {
+            margin-bottom: 20px;
+            padding-left: 15px;
+        }
+
+        strong {
+            color: #000;
+            font-weight: 600;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 30px 0;
+            font-size: 2rem;
+            background: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        th {
+            background: #0066cc;
+            color: white;
+            padding: 20px;
+            text-align: left;
+            font-weight: 600;
+            border: 1px solid #0052a3;
+        }
+
+        td {
+            padding: 18px 20px;
+            border: 1px solid #ddd;
+            color: #333;
+        }
+
+        tr:nth-child(even) {
+            background: #f5f5f5;
+        }
+
+        .chart-container {
+            width: 100%;
+            max-width: 900px;
+            margin: 30px 0;
+            background: white;
+            padding: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .controls {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            gap: 15px;
+            z-index: 100;
+            opacity: 1;
+            transition: opacity 0.5s ease;
+        }
+
+        .controls.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        button {
+            background: #0066cc;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 1.1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: 'Calibri', sans-serif;
+            font-weight: 600;
+            transition: background 0.2s ease;
+        }
+
+        button:hover {
+            background: #0052a3;
+        }
+
+        button:active {
+            background: #004080;
+        }
+
+        .slide-number {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            color: #1a1a1a;
+            font-size: 1.1rem;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 8px 16px;
+            border-radius: 4px;
+            z-index: 100;
+            font-weight: 600;
+        }
+
+        .progress-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            height: 4px;
+            background: #0066cc;
+            z-index: 100;
+            transition: width 0.3s ease;
+        }
+
+        /* Laser pointer mode */
+        .laser-pointer {
+            position: fixed;
+            width: 12px;
+            height: 12px;
+            background: radial-gradient(circle, #ff0000 0%, #ff0000 40%, rgba(255, 0, 0, 0.4) 70%, transparent 100%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 10px 3px rgba(255, 0, 0, 0.6);
+            display: none;
+        }
+
+        .laser-pointer.active {
+            display: block;
+        }
+
+        body.laser-mode {
+            cursor: none;
+        }
+
+        .laser-toggle {
+            background: #666;
+            padding: 12px 15px;
+            font-size: 0.9rem;
+        }
+
+        .laser-toggle.active {
+            background: #993333;
+        }
+
+        .laser-toggle.active:hover {
+            background: #802929;
+        }
+
+        .fullscreen-toggle {
+            background: #666;
+            padding: 12px 15px;
+            font-size: 0.9rem;
+        }
+
+        .fullscreen-toggle:hover {
+            background: #555;
+        }
+
+        .highlight {
+            color: #0066cc;
+            font-weight: 600;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #0066cc;
+            color: white;
+            padding: 10px 25px;
+            border-radius: 4px;
+            font-size: 1.6rem;
+            margin: 10px 15px 10px 0;
+            font-weight: 600;
+        }
+
+        /* Background image classes */
+        .bg-first-slide {
+            background-image: url('presentation_first_slide.png');
+        }
+
+        .bg-default-slide {
+            background-image: url('presentation_default_slide.png');
+        }
+
+        .image-demo {
+            display: flex;
+            gap: 30px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .image-demo img {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            border: 3px solid #0066cc;
+            border-radius: 8px;
+        }
+
+        /* Animation classes */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes fadeInRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        @keyframes shimmer {
+            0% {
+                background-position: -200% center;
+            }
+            100% {
+                background-position: 200% center;
+            }
+        }
+
+        .slide.active .anim-fade-up {
+            animation: fadeInUp 3s ease-out forwards;
+        }
+
+        .slide.active .anim-fade-left {
+            animation: fadeInLeft 3s ease-out forwards;
+        }
+
+        .slide.active .anim-fade-right {
+            animation: fadeInRight 3s ease-out forwards;
+        }
+
+        .slide.active .anim-scale {
+            animation: scaleIn 2.4s ease-out forwards;
+        }
+
+        .slide.active .anim-pulse {
+            animation: pulse 2.5s ease-in-out infinite;
+        }
+
+        .anim-delay-1 { animation-delay: 0.6s !important; opacity: 0; }
+        .anim-delay-2 { animation-delay: 1.2s !important; opacity: 0; }
+        .anim-delay-3 { animation-delay: 1.8s !important; opacity: 0; }
+        .anim-delay-4 { animation-delay: 2.4s !important; opacity: 0; }
+        .anim-delay-5 { animation-delay: 3.0s !important; opacity: 0; }
+
+        .slide.active .anim-delay-1,
+        .slide.active .anim-delay-2,
+        .slide.active .anim-delay-3,
+        .slide.active .anim-delay-4,
+        .slide.active .anim-delay-5 {
+            opacity: 1;
+        }
+
+        .animation-demo-box {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 150px;
+            height: 150px;
+            background: linear-gradient(135deg, #0066cc, #004499);
+            color: white;
+            border-radius: 12px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin: 15px;
+            box-shadow: 0 4px 15px rgba(0, 102, 204, 0.4);
+        }
+
+        .shimmer-text {
+            background: linear-gradient(90deg, #0066cc 0%, #00aaff 50%, #0066cc 100%);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shimmer 3s linear infinite;
+        }
+
+        /* Two-column layout */
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            margin-top: 30px;
+        }
+
+        .two-column .column {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .two-column .column h3 {
+            margin-top: 0;
+            border-bottom: 3px solid #0066cc;
+            padding-bottom: 10px;
+        }
+
+        /* Quote/Callout styling */
+        .quote-block {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-left: 6px solid #0066cc;
+            padding: 40px 50px;
+            margin: 30px 0;
+            position: relative;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .quote-block::before {
+            content: '"';
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            font-size: 5rem;
+            color: #0066cc;
+            opacity: 0.3;
+            font-family: Georgia, serif;
+            line-height: 1;
+        }
+
+        .quote-block p {
+            font-size: 2.4rem;
+            font-style: italic;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .quote-block .attribution {
+            font-size: 1.6rem;
+            font-style: normal;
+            color: #666;
+            text-align: right;
+        }
+
+        .callout {
+            background: #e7f3ff;
+            border: 2px solid #0066cc;
+            border-radius: 8px;
+            padding: 30px 40px;
+            margin: 30px 0;
+        }
+
+        .callout.warning {
+            background: #fff3e0;
+            border-color: #ff9800;
+        }
+
+        .callout.success {
+            background: #e8f5e9;
+            border-color: #4caf50;
+        }
+
+        .callout p {
+            margin-bottom: 0;
+        }
+
+        /* Code block styling */
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 1.6rem;
+            padding: 30px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 30px 0;
+            line-height: 1.6;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            white-space: pre;
+            position: relative;
+        }
+
+        .code-block::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .code-block::-webkit-scrollbar-track {
+            background: #333;
+            border-radius: 4px;
+        }
+
+        .code-block::-webkit-scrollbar-thumb {
+            background: #666;
+            border-radius: 4px;
+        }
+
+        .code-block::-webkit-scrollbar-thumb:hover {
+            background: #888;
+        }
+
+        /* Scroll indicator for overflowing code */
+        .code-wrapper {
+            position: relative;
+        }
+
+        .code-wrapper::after {
+            content: '→';
+            position: absolute;
+            right: 10px;
+            bottom: 40px;
+            color: #666;
+            font-size: 1.2rem;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+
+        .code-wrapper.has-overflow::after {
+            opacity: 1;
+        }
+
+        .code-block .comment { color: #6a9955; }
+        .code-block .keyword { color: #569cd6; }
+        .code-block .string { color: #ce9178; }
+        .code-block .function { color: #dcdcaa; }
+        .code-block .number { color: #b5cea8; }
+        .code-block .tag { color: #569cd6; }
+        .code-block .attribute { color: #9cdcfe; }
+
+        .code-header {
+            background: #333;
+            color: #888;
+            padding: 10px 20px;
+            font-size: 1.2rem;
+            border-radius: 8px 8px 0 0;
+            margin-bottom: -8px;
+            font-family: 'Consolas', monospace;
+        }
+
+        /* Icon grid */
+        .icon-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin: 30px 0;
+        }
+
+        .icon-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            padding: 25px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .icon-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+        }
+
+        .icon-item .icon {
+            font-size: 3rem;
+            flex-shrink: 0;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #e7f3ff;
+            border-radius: 12px;
+        }
+
+        .icon-item .icon svg {
+            width: 32px;
+            height: 32px;
+            fill: #0066cc;
+        }
+
+        .icon-item .icon-content h4 {
+            font-size: 1.8rem;
+            color: #1a1a1a;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .icon-item .icon-content p {
+            font-size: 1.4rem;
+            color: #666;
+            margin: 0;
+            line-height: 1.4;
+        }
+
+        /* Mobile responsive styles */
+        @media (max-width: 768px) {
+            .slide {
+                padding: 30px 40px;
+            }
+
+            .slide.title-slide .slide-content {
+                padding-left: 20px;
+            }
+
+            .slide.title-slide h1 {
+                font-size: 2.5rem;
+            }
+
+            .slide.title-slide .subtitle {
+                font-size: 1.4rem;
+            }
+
+            h2 {
+                font-size: 2rem;
+                margin-bottom: 20px;
+            }
+
+            h3 {
+                font-size: 1.4rem;
+            }
+
+            p, ul, ol {
+                font-size: 1.3rem;
+                line-height: 1.5;
+            }
+
+            ul li, ol li {
+                margin-bottom: 10px;
+            }
+
+            table {
+                font-size: 1rem;
+            }
+
+            th, td {
+                padding: 10px;
+            }
+
+            .badge {
+                font-size: 1rem;
+                padding: 6px 12px;
+            }
+
+            .controls {
+                bottom: 15px;
+                right: 15px;
+                gap: 8px;
+            }
+
+            button {
+                padding: 10px 15px;
+                font-size: 0.9rem;
+            }
+
+            .slide-number {
+                bottom: 15px;
+                left: 15px;
+                font-size: 0.9rem;
+                padding: 6px 12px;
+            }
+
+            .chart-container {
+                padding: 15px;
+            }
+
+            .image-demo img {
+                max-width: 100%;
+                height: auto;
+            }
+
+            .two-column {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .quote-block {
+                padding: 25px 30px;
+            }
+
+            .quote-block p {
+                font-size: 1.4rem;
+            }
+
+            .quote-block .attribution {
+                font-size: 1.1rem;
+            }
+
+            .code-block {
+                font-size: 1rem;
+                padding: 15px;
+            }
+
+            .icon-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .icon-item .icon-content h4 {
+                font-size: 1.3rem;
+            }
+
+            .icon-item .icon-content p {
+                font-size: 1.1rem;
+            }
+        }
+
+        /* Call-to-Action slide */
+        .cta-slide .slide-content {
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .cta-slide h2 {
+            font-size: 4.5rem;
+            border-bottom: none;
+            margin-bottom: 30px;
+        }
+
+        .cta-slide .cta-subtitle {
+            font-size: 2.4rem;
+            color: #555;
+            margin-bottom: 50px;
+            max-width: 800px;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 20px 50px;
+            font-size: 1.8rem;
+            font-weight: 600;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .cta-button.primary {
+            background: #0066cc;
+            color: white;
+            box-shadow: 0 4px 15px rgba(0, 102, 204, 0.4);
+        }
+
+        .cta-button.primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 102, 204, 0.5);
+        }
+
+        .cta-button.secondary {
+            background: white;
+            color: #0066cc;
+            border: 3px solid #0066cc;
+        }
+
+        .cta-button.secondary:hover {
+            transform: translateY(-3px);
+            background: #f0f7ff;
+        }
+
+        .cta-contact {
+            margin-top: 50px;
+            font-size: 1.6rem;
+            color: #666;
+        }
+
+        .cta-contact a {
+            color: #0066cc;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .cta-slide h2 {
+                font-size: 2.5rem;
+            }
+
+            .cta-slide .cta-subtitle {
+                font-size: 1.4rem;
+            }
+
+            .cta-button {
+                padding: 15px 30px;
+                font-size: 1.2rem;
+            }
+        }
+
+        /* Print styles for PDF export */
+        @media print {
+            @page {
+                size: landscape;
+                margin: 0;
+            }
+
+            body {
+                background: white;
+                padding: 0;
+                margin: 0;
+            }
+
+            .slide-container {
+                width: 100%;
+                height: auto;
+                border: none;
+                border-radius: 0;
+                box-shadow: none;
+                overflow: visible;
+            }
+
+            .slide {
+                position: relative !important;
+                transform: none !important;
+                opacity: 1 !important;
+                page-break-after: always;
+                page-break-inside: avoid;
+                height: 100vh;
+                width: 100vw;
+                display: flex !important;
+                break-after: page;
+            }
+
+            /* Remove background images only from default slides, keep title slide background */
+            .slide.bg-default-slide {
+                background-image: none !important;
+                background-color: white !important;
+            }
+
+            .slide.bg-first-slide {
+                background-size: cover !important;
+                background-position: center !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            .slide:last-child {
+                page-break-after: auto;
+            }
+
+            .slide.prev {
+                transform: none !important;
+            }
+
+            /* Hide UI elements */
+            .controls,
+            .slide-number,
+            .progress-bar,
+            .laser-pointer {
+                display: none !important;
+            }
+
+            /* Ensure backgrounds print */
+            .slide {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                color-adjust: exact !important;
+            }
+
+            /* Animations should be complete in print */
+            .anim-fade-up,
+            .anim-fade-left,
+            .anim-fade-right,
+            .anim-scale,
+            .anim-delay-1,
+            .anim-delay-2,
+            .anim-delay-3,
+            .anim-delay-4,
+            .anim-delay-5 {
+                opacity: 1 !important;
+                transform: none !important;
+                animation: none !important;
+            }
+
+            /* Scale down content slightly for print margins */
+            .slide-content {
+                padding: 40px 60px;
+            }
+
+            /* Ensure chart prints */
+            .chart-container canvas {
+                max-width: 100%;
+            }
+
+            /* CTA buttons print nicely */
+            .cta-button {
+                border: 2px solid #0066cc !important;
+            }
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+    <div class="slide-container">
+        <!-- Slide 1: Title -->
+        <div class="slide title-slide active bg-first-slide" data-slide="1">
+            <div class="slide-content">
+                <h1>AI-Powered Presentation Framework</h1>
+                <p class="subtitle">Building Beautiful Presentations with AI Agents</p>
+                <div>
+                    <span class="badge">AI-First</span>
+                    <span class="badge">Offline-Ready Presentations</span>
+                    <span class="badge">Self-Documenting</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 2: The Problem -->
+        <div class="slide bg-default-slide" data-slide="2">
+            <div class="slide-content">
+                <h2>The Challenge</h2>
+                <p>Traditional presentation tools require:</p>
+                <ul>
+                    <li>Manual slide-by-slide creation</li>
+                    <li>Complex software installation</li>
+                    <li>Inconsistent formatting</li>
+                    <li>Limited automation capabilities</li>
+                    <li>Poor AI agent integration</li>
+                </ul>
+                <p style="margin-top: 40px;"><span class="highlight">We need a better way.</span></p>
+            </div>
+        </div>
+
+        <!-- Slide 3: The Solution -->
+        <div class="slide bg-default-slide" data-slide="3">
+            <div class="slide-content">
+                <h2>Our Solution</h2>
+                <h3>Instruction-First Development</h3>
+                <p>AI agents read structured rules and generate:</p>
+                <ol>
+                    <li><strong>Standalone HTML presentations</strong> - No dependencies</li>
+                    <li><strong>Beautiful animations</strong> - Smooth transitions & effects</li>
+                    <li><strong>Rich content support</strong> - Tables, charts, images</li>
+                    <li><strong>Custom backgrounds</strong> - Full styling control</li>
+                    <li><strong>Offline-ready</strong> - Everything embedded</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- Slide 4: Features Comparison -->
+        <div class="slide bg-default-slide" data-slide="4">
+            <div class="slide-content">
+                <h2>Feature Comparison</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Traditional Tools</th>
+                            <th>Our Framework</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>AI Agent Creation</td>
+                            <td>❌ Not Supported</td>
+                            <td>✅ Native Support</td>
+                        </tr>
+                        <tr>
+                            <td>Offline Capability</td>
+                            <td>⚠️ Partial</td>
+                            <td>✅ 100% Offline</td>
+                        </tr>
+                        <tr>
+                            <td>Animations</td>
+                            <td>✅ Limited</td>
+                            <td>✅ CSS3 Powered</td>
+                        </tr>
+                        <tr>
+                            <td>Setup Time</td>
+                            <td>⏱️ Hours</td>
+                            <td>⚡ Seconds</td>
+                        </tr>
+                        <tr>
+                            <td>Customization</td>
+                            <td>⚠️ Template-Limited</td>
+                            <td>✅ Fully Programmable</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Slide 5: Workflow Chart -->
+        <div class="slide bg-default-slide" data-slide="5">
+            <div class="slide-content">
+                <h2>Development Workflow</h2>
+                <div class="chart-container">
+                    <canvas id="workflowChart"></canvas>
+                </div>
+                <p style="margin-top: 20px;">
+                    <span class="highlight">From concept to presentation in minutes</span>
+                </p>
+            </div>
+        </div>
+
+        <!-- Slide 6: Image Embedding -->
+        <div class="slide bg-default-slide" data-slide="6">
+            <div class="slide-content">
+                <h2>Image Embedding</h2>
+                <p>Presentations support embedded images from URLs or local files:</p>
+                <div class="image-demo">
+                    <img src="https://picsum.photos/id/237/400/300" alt="Example image 1">
+                    <div style="flex: 1; min-width: 300px;">
+                        <h3>Image Support</h3>
+                        <ul>
+                            <li>External URLs (https://)</li>
+                            <li>Local file references</li>
+                            <li>Base64 embedded images</li>
+                            <li>Automatic sizing and borders</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Animation Showcase -->
+        <div class="slide bg-default-slide" data-slide="7">
+            <div class="slide-content">
+                <h2 class="anim-fade-up">Animation Showcase</h2>
+                <p class="anim-fade-up anim-delay-1">CSS animations bring your slides to life:</p>
+                <div style="display: flex; flex-wrap: wrap; margin-top: 30px;">
+                    <div class="animation-demo-box anim-fade-left anim-delay-2">Fade Left</div>
+                    <div class="animation-demo-box anim-fade-up anim-delay-3">Fade Up</div>
+                    <div class="animation-demo-box anim-fade-right anim-delay-4">Fade Right</div>
+                    <div class="animation-demo-box anim-scale anim-delay-5">Scale In</div>
+                    <div class="animation-demo-box anim-pulse" style="animation-delay: 0.6s;">Pulse ∞</div>
+                </div>
+                <p style="margin-top: 40px;" class="anim-fade-up anim-delay-5">
+                    <span class="shimmer-text" style="font-size: 2.2rem; font-weight: 600;">✨ Shimmer text effect for emphasis ✨</span>
+                </p>
+            </div>
+        </div>
+
+        <!-- Slide 8: Two-Column Layout -->
+        <div class="slide bg-default-slide" data-slide="8">
+            <div class="slide-content">
+                <h2>Two-Column Layout</h2>
+                <div class="two-column">
+                    <div class="column">
+                        <h3>Before</h3>
+                        <ul>
+                            <li>Manual slide creation</li>
+                            <li>Hours of formatting</li>
+                            <li>Inconsistent styles</li>
+                            <li>Complex tool learning</li>
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <h3>After</h3>
+                        <ul>
+                            <li>AI-generated slides</li>
+                            <li>Minutes to completion</li>
+                            <li>Consistent framework</li>
+                            <li>Natural language input</li>
+                        </ul>
+                    </div>
+                </div>
+                <p style="margin-top: 30px;">Perfect for comparisons, pros/cons, or parallel content.</p>
+            </div>
+        </div>
+
+        <!-- Slide 9: Quote & Callout -->
+        <div class="slide bg-default-slide" data-slide="9">
+            <div class="slide-content">
+                <h2>Quotes & Callouts</h2>
+                <div class="quote-block">
+                    <p>The best way to predict the future is to invent it.</p>
+                    <div class="attribution">— Alan Kay</div>
+                </div>
+                <div class="callout">
+                    <p><strong>💡 Pro Tip:</strong> Use callouts to highlight important information that shouldn't be missed.</p>
+                </div>
+                <div class="callout warning">
+                    <p><strong>⚠️ Warning:</strong> Callouts can also indicate cautions with variant colors.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 10: Code Block -->
+        <div class="slide bg-default-slide" data-slide="10">
+            <div class="slide-content">
+                <h2>Code Blocks</h2>
+                <p>Syntax-highlighted code for technical presentations:</p>
+                <div class="code-header">JavaScript</div>
+                <div class="code-block"><span class="comment">// Generate a presentation slide</span>
+<span class="keyword">function</span> <span class="function">createSlide</span>(title, content) {
+    <span class="keyword">return</span> {
+        title: title,
+        content: content,
+        timestamp: <span class="keyword">new</span> <span class="function">Date</span>().<span class="function">toISOString</span>()
+    };
+}
+
+<span class="keyword">const</span> slide = <span class="function">createSlide</span>(
+    <span class="string">"Hello World"</span>,
+    <span class="string">"Welcome to the presentation!"</span>
+);</div>
+            </div>
+        </div>
+
+        <!-- Slide 11: Icon Grid -->
+        <div class="slide bg-default-slide" data-slide="11">
+            <div class="slide-content">
+                <h2>Icon Grid</h2>
+                <p>Visual feature lists with icons and descriptions:</p>
+                <div class="icon-grid">
+                    <div class="icon-item">
+                        <div class="icon">
+                            <svg viewBox="0 0 24 24"><path d="M13.13 22.19L11.5 18.36C13.07 17.78 14.54 17 15.9 16.09L13.13 22.19M5.64 12.5L1.81 10.87L7.91 8.1C7 9.46 6.22 10.93 5.64 12.5M21.61 2.39C21.61 2.39 16.66 .269 11 5.93C8.81 8.12 7.5 10.53 6.65 12.64C6.37 13.39 6.56 14.21 7.11 14.77L9.24 16.89C9.79 17.45 10.61 17.63 11.36 17.35C13.5 16.53 15.88 15.19 18.07 13C23.73 7.34 21.61 2.39 21.61 2.39M14.54 9.46C13.76 8.68 13.76 7.41 14.54 6.63S16.59 5.85 17.37 6.63C18.14 7.41 18.15 8.68 17.37 9.46C16.59 10.24 15.32 10.24 14.54 9.46M8.88 16.53L7.47 15.12L8.88 16.53M6.24 22L9.88 18.36C9.54 18.27 9.21 18.12 8.91 17.91L4.83 22H6.24M2 22H3.41L8.18 17.24L6.76 15.83L2 20.59V22M2 19.17L6.09 15.09C5.88 14.79 5.73 14.47 5.64 14.12L2 17.76V19.17Z"/></svg>
+                        </div>
+                        <div class="icon-content">
+                            <h4>Lightning Fast</h4>
+                            <p>Generate complete presentations in seconds, not hours.</p>
+                        </div>
+                    </div>
+                    <div class="icon-item">
+                        <div class="icon">
+                            <svg viewBox="0 0 24 24"><path d="M12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2C17.5,2 22,6 22,11A6,6 0 0,1 16,17H14.2C13.9,17 13.7,17.2 13.7,17.5C13.7,17.6 13.8,17.7 13.8,17.8C14.2,18.3 14.4,18.9 14.4,19.5C14.5,20.9 13.4,22 12,22M12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20C12.3,20 12.5,19.8 12.5,19.5C12.5,19.3 12.4,19.2 12.4,19.1C12,18.6 11.8,18.1 11.8,17.5C11.8,16.1 12.9,15 14.3,15H16A4,4 0 0,0 20,11C20,7.1 16.4,4 12,4M6.5,10C7.3,10 8,10.7 8,11.5C8,12.3 7.3,13 6.5,13C5.7,13 5,12.3 5,11.5C5,10.7 5.7,10 6.5,10M9.5,6C10.3,6 11,6.7 11,7.5C11,8.3 10.3,9 9.5,9C8.7,9 8,8.3 8,7.5C8,6.7 8.7,6 9.5,6M14.5,6C15.3,6 16,6.7 16,7.5C16,8.3 15.3,9 14.5,9C13.7,9 13,8.3 13,7.5C13,6.7 13.7,6 14.5,6M17.5,10C18.3,10 19,10.7 19,11.5C19,12.3 18.3,13 17.5,13C16.7,13 16,12.3 16,11.5C16,10.7 16.7,10 17.5,10Z"/></svg>
+                        </div>
+                        <div class="icon-content">
+                            <h4>Beautiful Design</h4>
+                            <p>Professional styling with consistent visual language.</p>
+                        </div>
+                    </div>
+                    <div class="icon-item">
+                        <div class="icon">
+                            <svg viewBox="0 0 24 24"><path d="M17,19H7V5H17M17,1H7C5.89,1 5,1.89 5,3V21A2,2 0 0,0 7,23H17A2,2 0 0,0 19,21V3C19,1.89 18.1,1 17,1Z"/></svg>
+                        </div>
+                        <div class="icon-content">
+                            <h4>Fully Responsive</h4>
+                            <p>Works perfectly on desktop, tablet, and mobile devices.</p>
+                        </div>
+                    </div>
+                    <div class="icon-item">
+                        <div class="icon">
+                            <svg viewBox="0 0 24 24"><path d="M16,7V3H14V7H10V3H8V7H8C7,7 6,8 6,9V14.5L9.5,18V21H14.5V18L18,14.5V9C18,8 17,7 16,7Z"/></svg>
+                        </div>
+                        <div class="icon-content">
+                            <h4>Offline Ready</h4>
+                            <p>No internet required once the presentation is generated.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 12: Call to Action -->
+        <div class="slide cta-slide bg-default-slide" data-slide="12">
+            <div class="slide-content">
+                <h2>Ready to Get Started?</h2>
+                <p class="cta-subtitle">Transform the way you create presentations with AI-powered automation.</p>
+                <div class="cta-buttons">
+                    <a href="#" class="cta-button primary">Try the Framework</a>
+                    <a href="#" class="cta-button secondary">View Documentation</a>
+                </div>
+                <div class="cta-contact">
+                    Questions? Reach out at <a href="mailto:contact@example.com">contact@example.com</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide-number">
+        <span id="currentSlide">1</span> / <span id="totalSlides">7</span>
+    </div>
+
+    <div class="progress-bar" id="progressBar"></div>
+    <div class="laser-pointer" id="laserPointer"></div>
+
+    <div class="controls">
+        <button id="laserBtn" class="laser-toggle">🔴 L</button>
+        <button id="fullscreenBtn" class="fullscreen-toggle">⛶ F</button>
+        <button id="prevBtn">← Previous</button>
+        <button id="nextBtn">Next →</button>
+    </div>
+
+    <script>
+        let currentSlide = 1;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        
+        document.getElementById('totalSlides').textContent = totalSlides;
+        updateProgressBar();
+
+        function updateProgressBar() {
+            const progress = (currentSlide / totalSlides) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+
+        function updateSlide(direction) {
+            const current = slides[currentSlide - 1];
+            
+            if (direction === 'next' && currentSlide < totalSlides) {
+                current.classList.remove('active');
+                current.classList.add('prev');
+                currentSlide++;
+                slides[currentSlide - 1].classList.add('active');
+                slides[currentSlide - 1].classList.remove('prev');
+            } else if (direction === 'prev' && currentSlide > 1) {
+                current.classList.remove('active');
+                currentSlide--;
+                slides[currentSlide - 1].classList.remove('prev');
+                slides[currentSlide - 1].classList.add('active');
+            }
+            
+            document.getElementById('currentSlide').textContent = currentSlide;
+            updateProgressBar();
+            
+            // Initialize charts on current slide if needed
+            initChartsOnSlide(slides[currentSlide - 1]);
+        }
+
+        // Dynamic chart initialization
+        function initChartsOnSlide(slide) {
+            const canvases = slide.querySelectorAll('canvas:not([data-initialized])');
+            canvases.forEach(canvas => {
+                if (canvas.id === 'workflowChart') {
+                    initWorkflowChart(canvas);
+                }
+                canvas.setAttribute('data-initialized', 'true');
+            });
+        }
+
+        // Auto-hide controls on mouse idle
+        let mouseTimer = null;
+        const controls = document.querySelector('.controls');
+        
+        function showControls() {
+            controls.classList.remove('hidden');
+            clearTimeout(mouseTimer);
+            mouseTimer = setTimeout(() => {
+                controls.classList.add('hidden');
+            }, 2000);
+        }
+        
+        document.addEventListener('mousemove', showControls);
+        showControls(); // Initial show
+
+        document.getElementById('nextBtn').addEventListener('click', () => updateSlide('next'));
+        document.getElementById('prevBtn').addEventListener('click', () => updateSlide('prev'));
+
+        // Laser pointer functionality
+        const laserPointer = document.getElementById('laserPointer');
+        const laserBtn = document.getElementById('laserBtn');
+        let laserMode = false;
+
+        function toggleLaser() {
+            laserMode = !laserMode;
+            laserPointer.classList.toggle('active', laserMode);
+            laserBtn.classList.toggle('active', laserMode);
+            document.body.classList.toggle('laser-mode', laserMode);
+        }
+
+        laserBtn.addEventListener('click', toggleLaser);
+        document.getElementById('fullscreenBtn').addEventListener('click', toggleFullscreen);
+
+        document.addEventListener('mousemove', (e) => {
+            if (laserMode) {
+                laserPointer.style.left = e.clientX + 'px';
+                laserPointer.style.top = e.clientY + 'px';
+            }
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                updateSlide('next');
+            } else if (e.key === 'ArrowLeft') {
+                updateSlide('prev');
+            } else if (e.key === 'f' || e.key === 'F') {
+                toggleFullscreen();
+            } else if (e.key === 'l' || e.key === 'L') {
+                toggleLaser();
+            } else if (e.key === 'Escape' && laserMode) {
+                toggleLaser();
+            }
+        });
+
+        // Touch/swipe support for mobile
+        let touchStartX = 0;
+        let touchEndX = 0;
+        const swipeThreshold = 50;
+
+        document.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+
+        document.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        }, { passive: true });
+
+        function handleSwipe() {
+            const diff = touchStartX - touchEndX;
+            if (Math.abs(diff) > swipeThreshold) {
+                if (diff > 0) {
+                    updateSlide('next'); // Swipe left = next
+                } else {
+                    updateSlide('prev'); // Swipe right = prev
+                }
+            }
+        }
+
+        // Fullscreen toggle
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+            } else {
+                document.exitFullscreen();
+            }
+        }
+
+        // Initialize chart
+        function initWorkflowChart(canvas) {
+            const ctx = canvas.getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Traditional', 'Our Framework'],
+                    datasets: [{
+                        label: 'Time to Create (minutes)',
+                        data: [120, 5],
+                        backgroundColor: [
+                            '#dc3545',
+                            '#28a745'
+                        ],
+                        borderColor: [
+                            '#bd2130',
+                            '#218838'
+                        ],
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: {
+                            labels: {
+                                font: {
+                                    size: 18,
+                                    family: 'Calibri'
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                font: {
+                                    size: 16,
+                                    family: 'Calibri'
+                                }
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                font: {
+                                    size: 16,
+                                    family: 'Calibri'
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>
