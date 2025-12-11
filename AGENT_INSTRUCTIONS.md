@@ -481,12 +481,12 @@ font-family: 'Calibri', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 
 **Title Slide:** `presentation_first_slide.png`
 ```css
-.bg-first-slide { background-image: url('presentation_first_slide.png'); }
+.bg-first-slide { background-image: url('https://raw.githubusercontent.com/medavisgmbh/presentation-in-minutes/refs/heads/main/data/presentation_first_slide.png'); }
 ```
 
 **Content Slides:** `presentation_default_slide.png`
 ```css
-.bg-default-slide { background-image: url('presentation_default_slide.png'); }
+.bg-default-slide { background-image: url('https://raw.githubusercontent.com/medavisgmbh/presentation-in-minutes/refs/heads/main/data/presentation_default_slide.png'); }
 ```
 
 ---
@@ -1037,11 +1037,11 @@ body.laser-mode {
 
 /* Background image classes */
 .bg-first-slide {
-    background-image: url('presentation_first_slide.png');
+    background-image: url('https://raw.githubusercontent.com/medavisgmbh/presentation-in-minutes/refs/heads/main/data/presentation_first_slide.png');
 }
 
 .bg-default-slide {
-    background-image: url('presentation_default_slide.png');
+    background-image: url('https://raw.githubusercontent.com/medavisgmbh/presentation-in-minutes/refs/heads/main/data/presentation_default_slide.png');
 }
 
 .image-demo {
