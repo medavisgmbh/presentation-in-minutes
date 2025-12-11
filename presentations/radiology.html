@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Presentation in Minutes</title>
+    <title>Radiology Workflows & Invoicing in Germany</title>
     <style>
 * {
     margin: 0;
@@ -60,6 +60,7 @@ body {
     flex-direction: column;
 }
 
+/* Title slide specific */
 .slide.title-slide .slide-content {
     justify-content: center;
     align-items: flex-start;
@@ -80,6 +81,7 @@ body {
     margin-bottom: 40px;
 }
 
+/* Content slides */
 h2 {
     font-size: 4rem;
     color: #333f4c;
@@ -174,6 +176,15 @@ tr:nth-child(even) {
     background: #f5f5f5;
 }
 
+.chart-container {
+    width: 100%;
+    max-width: 900px;
+    margin: 30px 0;
+    background: white;
+    padding: 30px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
 .controls {
     position: fixed;
     bottom: 30px;
@@ -234,6 +245,7 @@ button:active {
     transition: width 0.3s ease;
 }
 
+/* Laser pointer mode */
 .laser-pointer {
     position: fixed;
     width: 12px;
@@ -295,6 +307,7 @@ body.laser-mode {
     font-weight: 600;
 }
 
+/* Background image classes */
 .bg-first-slide {
     background-image: url('https://raw.githubusercontent.com/medavisgmbh/presentation-in-minutes/refs/heads/main/data/presentation_first_slide.png');
 }
@@ -303,6 +316,169 @@ body.laser-mode {
     background-image: url('https://raw.githubusercontent.com/medavisgmbh/presentation-in-minutes/refs/heads/main/data/presentation_default_slide.png');
 }
 
+.image-demo {
+    display: flex;
+    gap: 30px;
+    margin: 30px 0;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.image-demo img {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    border: 3px solid #79aa00;
+    border-radius: 8px;
+}
+
+/* Animation classes */
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInLeft {
+    from { opacity: 0; transform: translateX(-30px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes fadeInRight {
+    from { opacity: 0; transform: translateX(30px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes scaleIn {
+    from { opacity: 0; transform: scale(0.8); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+@keyframes shimmer {
+    0% { background-position: -200% center; }
+    100% { background-position: 200% center; }
+}
+
+.slide.active .anim-fade-up { animation: fadeInUp 3s ease-out forwards; }
+.slide.active .anim-fade-left { animation: fadeInLeft 3s ease-out forwards; }
+.slide.active .anim-fade-right { animation: fadeInRight 3s ease-out forwards; }
+.slide.active .anim-scale { animation: scaleIn 2.4s ease-out forwards; }
+.slide.active .anim-pulse { animation: pulse 2.5s ease-in-out infinite; }
+
+.anim-delay-1 { animation-delay: 0.6s !important; opacity: 0; }
+.anim-delay-2 { animation-delay: 1.2s !important; opacity: 0; }
+.anim-delay-3 { animation-delay: 1.8s !important; opacity: 0; }
+.anim-delay-4 { animation-delay: 2.4s !important; opacity: 0; }
+.anim-delay-5 { animation-delay: 3.0s !important; opacity: 0; }
+
+.slide.active .anim-delay-1,
+.slide.active .anim-delay-2,
+.slide.active .anim-delay-3,
+.slide.active .anim-delay-4,
+.slide.active .anim-delay-5 { opacity: 1; }
+
+.animation-demo-box {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 150px;
+    height: 150px;
+    background: linear-gradient(135deg, #79aa00, #658e1e);
+    color: white;
+    border-radius: 12px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 15px;
+    box-shadow: 0 4px 15px rgba(121, 170, 0, 0.4);
+}
+
+.shimmer-text {
+    background: linear-gradient(90deg, #79aa00 0%, #a8d830 50%, #79aa00 100%);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shimmer 3s linear infinite;
+}
+
+/* Two-column layout */
+.two-column {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
+    margin-top: 30px;
+}
+
+.two-column .column {
+    display: flex;
+    flex-direction: column;
+}
+
+.two-column .column h3 {
+    margin-top: 0;
+    border-bottom: 3px solid #79aa00;
+    padding-bottom: 10px;
+}
+
+/* Quote/Callout styling */
+.quote-block {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-left: 6px solid #79aa00;
+    padding: 40px 50px;
+    margin: 30px 0;
+    position: relative;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.quote-block::before {
+    content: '"';
+    position: absolute;
+    top: 10px;
+    left: 20px;
+    font-size: 5rem;
+    color: #79aa00;
+    opacity: 0.3;
+    font-family: Georgia, serif;
+    line-height: 1;
+}
+
+.quote-block p {
+    font-size: 2.4rem;
+    font-style: italic;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.quote-block .attribution {
+    font-size: 1.6rem;
+    font-style: normal;
+    color: #666;
+    text-align: right;
+}
+
+.callout {
+    background: #f0f7e6;
+    border: 2px solid #79aa00;
+    border-radius: 8px;
+    padding: 30px 40px;
+    margin: 30px 0;
+}
+
+.callout.warning {
+    background: #fff3e0;
+    border-color: #ff9800;
+}
+
+.callout.info {
+    background: #e7f3ff;
+    border-color: #005ca9;
+}
+
+.callout p { margin-bottom: 0; }
+
+/* Code block styling */
 .code-block {
     background: #1e1e1e;
     color: #d4d4d4;
@@ -327,6 +503,23 @@ body.laser-mode {
 .code-block .string { color: #ce9178; }
 .code-block .function { color: #dcdcaa; }
 .code-block .number { color: #b5cea8; }
+.code-block .tag { color: #569cd6; }
+.code-block .attribute { color: #9cdcfe; }
+
+/* Code scroll indicator (optional wrapper) */
+.code-wrapper { position: relative; }
+.code-wrapper::after {
+    content: '→';
+    position: absolute;
+    right: 10px;
+    bottom: 40px;
+    color: #666;
+    font-size: 1.2rem;
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+}
+.code-wrapper.has-overflow::after { opacity: 1; }
 
 .code-header {
     background: #333;
@@ -338,95 +531,64 @@ body.laser-mode {
     font-family: 'Consolas', monospace;
 }
 
-.callout {
-    background: #f0f7e6;
-    border: 2px solid #79aa00;
-    border-radius: 8px;
-    padding: 30px 40px;
+/* Icon grid */
+.icon-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
     margin: 30px 0;
 }
 
-.callout.warning {
-    background: #fff3e0;
-    border-color: #ff9800;
-}
-
-.callout.success {
-    background: #e8f5e9;
-    border-color: #4caf50;
-}
-
-.callout p { margin-bottom: 0; }
-
-.two-column {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 50px;
-    margin-top: 30px;
-}
-
-.two-column .column {
+.icon-item {
     display: flex;
-    flex-direction: column;
+    align-items: flex-start;
+    gap: 25px;
+    padding: 35px 30px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    min-height: 140px;
 }
 
-.two-column .column h3 {
-    margin-top: 0;
-    border-bottom: 3px solid #79aa00;
-    padding-bottom: 10px;
+.icon-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
 }
 
-/* Workflow diagram */
-.workflow-diagram {
+.icon-item .icon {
+    font-size: 3rem;
+    flex-shrink: 0;
+    width: 70px;
+    height: 70px;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 20px;
-    margin: 40px 0;
-    flex-wrap: wrap;
-}
-
-.workflow-box {
-    background: white;
-    border: 3px solid #79aa00;
+    background: #f0f7e6;
     border-radius: 12px;
-    padding: 25px 35px;
-    text-align: center;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
-.workflow-box.highlight-box {
-    background: #79aa00;
-    color: white;
-    border-color: #4a772b;
+.icon-item .icon svg {
+    width: 38px;
+    height: 38px;
+    fill: #79aa00;
 }
 
-.workflow-box h4 {
-    font-size: 1.8rem;
-    margin-bottom: 8px;
+.icon-item .icon-content h4 {
+    font-size: 2rem;
     color: #333f4c;
+    margin-bottom: 10px;
+    font-weight: 600;
 }
 
-.workflow-box.highlight-box h4 {
-    color: white;
-}
-
-.workflow-box p {
-    font-size: 1.3rem;
-    margin: 0;
+.icon-item .icon-content p {
+    font-size: 1.5rem;
     color: #666;
+    margin: 0;
+    line-height: 1.5;
 }
 
-.workflow-box.highlight-box p {
-    color: rgba(255,255,255,0.9);
-}
-
-.workflow-arrow {
-    font-size: 3rem;
-    color: #79aa00;
-}
-
-/* CTA slide */
+/* Call-to-Action slide */
 .cta-slide .slide-content {
     justify-content: center;
     align-items: center;
@@ -485,44 +647,19 @@ body.laser-mode {
     background: #f0f7ff;
 }
 
-/* Animation classes */
-@keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(30px); }
-    to { opacity: 1; transform: translateY(0); }
+.cta-contact {
+    margin-top: 50px;
+    font-size: 1.6rem;
+    color: #666;
 }
 
-@keyframes shimmer {
-    0% { background-position: -200% center; }
-    100% { background-position: 200% center; }
+.cta-contact a {
+    color: #79aa00;
+    text-decoration: none;
+    font-weight: 600;
 }
 
-.slide.active .anim-fade-up { animation: fadeInUp 3s ease-out forwards; }
-
-.anim-delay-1 { animation-delay: 0.6s !important; opacity: 0; }
-.anim-delay-2 { animation-delay: 1.2s !important; opacity: 0; }
-.anim-delay-3 { animation-delay: 1.8s !important; opacity: 0; }
-
-.slide.active .anim-delay-1,
-.slide.active .anim-delay-2,
-.slide.active .anim-delay-3 { opacity: 1; }
-
-.shimmer-text {
-    background: linear-gradient(90deg, #79aa00 0%, #a8d830 50%, #79aa00 100%);
-    background-size: 200% auto;
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: shimmer 3s linear infinite;
-}
-
-/* Smaller code for prompt slide */
-.small-code {
-    font-size: 1.1rem;
-    max-height: 400px;
-    overflow-y: auto;
-}
-
-/* Mobile responsive */
+/* Mobile responsive styles */
 @media (max-width: 768px) {
     .slide { padding: 30px 40px; }
     .slide.title-slide .slide-content { padding-left: 20px; }
@@ -531,12 +668,32 @@ body.laser-mode {
     h2 { font-size: 2rem; margin-bottom: 20px; }
     h3 { font-size: 1.4rem; }
     p, ul, ol { font-size: 1.3rem; line-height: 1.5; }
-    .workflow-diagram { flex-direction: column; }
-    .workflow-arrow { transform: rotate(90deg); }
-    .two-column { grid-template-columns: 1fr; }
+    ul li, ol li { margin-bottom: 10px; }
+    table { font-size: 1rem; }
+    th, td { padding: 10px; }
+    .badge { font-size: 1rem; padding: 6px 12px; }
+    .controls { bottom: 15px; right: 15px; gap: 8px; }
+    button { padding: 10px 15px; font-size: 0.9rem; }
+    .slide-number { bottom: 15px; left: 15px; font-size: 0.9rem; padding: 6px 12px; }
+    .chart-container { padding: 15px; }
+    .image-demo img { max-width: 100%; height: auto; }
+    .two-column { grid-template-columns: 1fr; gap: 30px; }
+    .quote-block { padding: 25px 30px; }
+    .quote-block p { font-size: 1.4rem; }
+    .quote-block .attribution { font-size: 1.1rem; }
+    .code-block { font-size: 1rem; padding: 15px; }
+    .icon-grid { grid-template-columns: 1fr 1fr; gap: 25px; }
+    .icon-item { padding: 25px 20px; min-height: auto; }
+    .icon-item .icon { width: 50px; height: 50px; }
+    .icon-item .icon svg { width: 28px; height: 28px; }
+    .icon-item .icon-content h4 { font-size: 1.3rem; }
+    .icon-item .icon-content p { font-size: 1.1rem; }
+    .cta-slide h2 { font-size: 2.5rem; }
+    .cta-slide .cta-subtitle { font-size: 1.4rem; }
+    .cta-button { padding: 15px 30px; font-size: 1.2rem; }
 }
 
-/* Print styles */
+/* Print styles for PDF export */
 @media print {
     @page { size: landscape; margin: 0; }
     body { background: white; padding: 0; margin: 0; }
@@ -555,189 +712,117 @@ body.laser-mode {
     .slide.bg-default-slide { background-image: none !important; background-color: white !important; }
     .slide.bg-first-slide { background-size: cover !important; background-position: center !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
     .slide:last-child { page-break-after: auto; }
+    .slide.prev { transform: none !important; }
     .controls, .slide-number, .progress-bar, .laser-pointer { display: none !important; }
-    .anim-fade-up, .anim-delay-1, .anim-delay-2, .anim-delay-3 {
+    .slide { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; color-adjust: exact !important; }
+    .anim-fade-up, .anim-fade-left, .anim-fade-right, .anim-scale, .anim-delay-1, .anim-delay-2, .anim-delay-3, .anim-delay-4, .anim-delay-5 {
         opacity: 1 !important; transform: none !important; animation: none !important;
     }
+    .slide-content { padding: 40px 60px; }
+    .chart-container canvas { max-width: 100%; }
+    .cta-button { border: 2px solid #79aa00 !important; }
 }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 </head>
 <body>
     <div class="slide-container">
-
         <!-- Slide 1: Title -->
         <div class="slide title-slide active bg-first-slide" data-slide="1">
             <div class="slide-content">
-                <h1>Presentation in Minutes</h1>
-                <p class="subtitle">From prompt to polished slides — instantly</p>
+                <h1>Radiology Workflows &amp;<br>Invoicing in Germany</h1>
+                <p class="subtitle">From referral to paid invoice in a structured way</p>
                 <div>
-                    <span class="badge">AI-Powered</span>
-                    <span class="badge">Single HTML</span>
-                    <span class="badge">Zero Dependencies</span>
+                    <span class="badge">Radiology</span>
+                    <span class="badge">Workflow</span>
+                    <span class="badge">Billing &amp; Coding</span>
                 </div>
             </div>
         </div>
 
-        <!-- Slide 2: The Problem -->
+        <!-- Slide 2: Bullet list – Workflow overview -->
         <div class="slide bg-default-slide" data-slide="2">
             <div class="slide-content">
-                <h2>The Problem</h2>
+                <h2>Radiology Care Pathway</h2>
+                <p>Typical high-level workflow from the hospital / practice perspective:</p>
                 <ul>
-                    <li><strong>Creating presentations is slow</strong> — design, layout, styling takes hours</li>
-                    <li><strong>PowerPoint fatigue</strong> — endless clicking, template hunting, formatting battles</li>
-                    <li><strong>AI tools generate content</strong> — but not ready-to-present slides</li>
-                    <li><strong>Context switching</strong> — leave your IDE to make a deck?</li>
+                    <li><strong>Referral &amp; indication check</strong> – verify medical necessity, insurance status, cost bearer</li>
+                    <li><strong>Scheduling &amp; preparation</strong> – appointment, consent, contrast checks, radiation protection</li>
+                    <li><strong>Image acquisition</strong> – protocol selection, dose documentation, technical quality check</li>
+                    <li><strong>Reporting</strong> – structured findings, comparison with prior exams, sign-off by radiologist</li>
+                    <li><strong>Communication &amp; archiving</strong> – report distribution (HL7, fax, portal), PACS/RIS documentation</li>
+                    <li><strong>Handover to billing</strong> – complete dataset for coding, EBM/GOÄ/DRG relevant data</li>
                 </ul>
-                <div class="callout warning">
-                    <p><strong>⏱️ Reality:</strong> A simple 10-slide deck can take 2+ hours to polish</p>
-                </div>
             </div>
         </div>
 
-        <!-- Slide 3: The Solution / Workflow -->
+        <!-- Slide 3: Numbered list – Operational workflow -->
         <div class="slide bg-default-slide" data-slide="3">
             <div class="slide-content">
-                <h2>The Solution</h2>
-                <p>One instruction file that teaches AI to generate complete presentations</p>
-                
-                <div class="workflow-diagram">
-                    <div class="workflow-box">
-                        <h4>📄 Instruction File</h4>
-                        <p>Design system & rules</p>
-                    </div>
-                    <span class="workflow-arrow">+</span>
-                    <div class="workflow-box">
-                        <h4>💬 Your Prompt</h4>
-                        <p>"Create a deck about X"</p>
-                    </div>
-                    <span class="workflow-arrow">→</span>
-                    <div class="workflow-box highlight-box">
-                        <h4>🎯 AI Agent</h4>
-                        <p>LLM generates HTML</p>
-                    </div>
-                    <span class="workflow-arrow">→</span>
-                    <div class="workflow-box">
-                        <h4>📊 Presentation</h4>
-                        <p>Ready to present!</p>
-                    </div>
-                </div>
-
-                <div class="callout success">
-                    <p><strong>✨ Result:</strong> Professional slides in seconds, not hours</p>
-                </div>
+                <h2>Core Radiology Workflow (Simplified)</h2>
+                <h3>Operational steps with billing relevance</h3>
+                <ol>
+                    <li><strong>Patient &amp; insurance capture</strong> – correct KV data, cost bearer, accident vs. regular case</li>
+                    <li><strong>Order entry in RIS</strong> – map referral text to <strong>billable services</strong> (procedure codes, modifiers)</li>
+                    <li><strong>Procedure execution</strong> – record side, region, contrast, time, supervising physician</li>
+                    <li><strong>Structured report</strong> – link to order, document indications that support coding</li>
+                    <li><strong>Technical + medical sign-off</strong> – completeness check (services, materials, add-ons)</li>
+                    <li><strong>Billing export</strong> – generate claim record and transfer to Praxisverwaltung / KIS / KV-Portal</li>
+                </ol>
             </div>
         </div>
 
-        <!-- Slide 4: Single HTML Features -->
+        <!-- Slide 4: Two-column – Invoicing procedures -->
         <div class="slide bg-default-slide" data-slide="4">
             <div class="slide-content">
-                <h2>One HTML File, Full Features</h2>
+                <h2>Invoicing in German Radiology</h2>
                 <div class="two-column">
                     <div class="column">
-                        <h3>Built-in Capabilities</h3>
+                        <h3>Outpatient (GKV)</h3>
                         <ul>
-                            <li>Keyboard navigation (← → F L)</li>
-                            <li>Touch/swipe support</li>
-                            <li>Fullscreen mode</li>
-                            <li>Laser pointer for presenting</li>
-                            <li>Progress bar & slide counter</li>
+                            <li><strong>EBM-based billing</strong> via Kassenärztliche Vereinigung (KV)</li>
+                            <li>Service documentation in RIS/PVS → quarterly KV claim</li>
+                            <li>Plausibility checks (time, profile, budget) before and at KV</li>
+                            <li>Key details: treatment type, referral reason, accident / screening flags</li>
+                            <li>Rejections often due to <strong>missing indication</strong> or incompatible combination codes</li>
                         </ul>
                     </div>
                     <div class="column">
-                        <h3>Slide Types</h3>
+                        <h3>Private &amp; Inpatient</h3>
                         <ul>
-                            <li>Title, bullets, numbered lists</li>
-                            <li>Tables & Chart.js charts</li>
-                            <li>Code blocks with syntax highlighting</li>
-                            <li>Two-column layouts</li>
-                            <li>Quotes, callouts, CTAs</li>
+                            <li><strong>GOÄ</strong> for private patients, BG, self-payers (incl. IGeL)</li>
+                            <li>Precise documentation of <strong>multiplier, indication, materials</strong></li>
+                            <li><strong>Inpatient:</strong> services flow into DRG / PEPP case (KIS-based coding)</li>
+                            <li>Radiology services influence <strong>DRG grouping</strong> via procedures and diagnoses</li>
+                            <li>Important: clear agreement who bills what (hospital vs. MVZ vs. teleradiology partner)</li>
                         </ul>
                     </div>
                 </div>
-                <p style="margin-top: 30px;"><strong>Print to PDF</strong> via Ctrl+P — backgrounds preserved, animations resolved</p>
+                <p style="margin-top: 30px;">Goal: consistent documentation in RIS/KIS so the same exam leads to the same, compliant invoice – regardless of payer type.</p>
             </div>
         </div>
 
-        <!-- Slide 5: Integration Options -->
-        <div class="slide bg-default-slide" data-slide="5">
+        <!-- Slide 5: CTA / Summary -->
+        <div class="slide cta-slide bg-default-slide" data-slide="5">
             <div class="slide-content">
-                <h2>How to Integrate</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Method</th>
-                            <th>How</th>
-                            <th>Best For</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>Any Chat</strong></td>
-                            <td>Paste instruction file + your request</td>
-                            <td>ChatGPT, Claude, Gemini</td>
-                        </tr>
-                        <tr>
-                            <td><strong>VS Code Copilot</strong></td>
-                            <td>Add as <code>.instructions.md</code> in prompts folder</td>
-                            <td>Developers in IDE</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Cursor / Windsurf</strong></td>
-                            <td>Add to project rules or context</td>
-                            <td>AI-first editors</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Custom Agents</strong></td>
-                            <td>Include in system prompt</td>
-                            <td>Automation pipelines</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- Slide 6: The Prompt That Made This -->
-        <div class="slide bg-default-slide" data-slide="6">
-            <div class="slide-content">
-                <h2>🔄 The Prompt That Made This</h2>
-                <p>This presentation was generated by the framework itself:</p>
-                <div class="code-header">User Prompt</div>
-                <div class="code-block small-code"><span class="string">create a presentation of this repository.
-it is a self reflective task.
-
-the finale of the presentation is to reveal that the presentation 
-was created using this framework and shows how this prompt to 
-create the presentation playing with the recursive approach.
-
-For the presentation focus on why this is useful, how it can be used 
-(as standalone instruction file for a chat or as part of more 
-advanced agents like copilot or cursor)
-
-focus on the workflow and the use cases.
-keep it short and concise</span></div>
-                <p class="anim-fade-up anim-delay-1" style="text-align: center; margin-top: 20px;">
-                    <span class="shimmer-text" style="font-size: 2.2rem; font-weight: 600;">↺ Recursion complete.</span>
+                <h2>Make Radiology &amp; Billing Work Together</h2>
+                <p class="cta-subtitle">
+                    Keep workflows lean, documentation structured, and invoicing rules transparent.  
+                    Small process fixes in RIS/KIS often prevent large revenue losses.
                 </p>
-            </div>
-        </div>
-
-        <!-- Slide 7: Thank You / CTA -->
-        <div class="slide cta-slide bg-default-slide" data-slide="7">
-            <div class="slide-content">
-                <h2>Get Started</h2>
-                <p class="cta-subtitle">Turn your ideas into presentations in minutes, not hours</p>
                 <div class="cta-buttons">
-                    <a href="https://github.com/medavisgmbh/presentation-in-minutes" class="cta-button primary">⭐ View on GitHub</a>
-                    <a href="https://github.com/medavisgmbh/presentation-in-minutes/blob/main/AGENT_INSTRUCTIONS.md" class="cta-button secondary">📄 Get the Prompt</a>
+                    <a href="#" class="cta-button primary">Map Your Current Workflow</a>
+                    <a href="#" class="cta-button secondary">List Top 5 Billing Errors</a>
                 </div>
-                <p style="margin-top: 60px; font-size: 2rem; color: #666;">Thank you! 🙏</p>
+                <div class="cta-contact">
+                    Next step: define who owns which process step (radiology, scheduling, coding, billing) and document it as an SOP.
+                </div>
             </div>
         </div>
-
     </div>
 
-    <!-- UI Elements -->
-    <div class="slide-number"><span id="currentSlide">1</span> / <span id="totalSlides">7</span></div>
+    <!-- UI ELEMENTS -->
+    <div class="slide-number"><span id="currentSlide">1</span> / <span id="totalSlides">5</span></div>
     <div class="progress-bar" id="progressBar"></div>
     <div class="laser-pointer" id="laserPointer"></div>
     <div class="controls">
@@ -778,6 +863,15 @@ function updateSlide(direction) {
     
     document.getElementById('currentSlide').textContent = currentSlide;
     updateProgressBar();
+    initChartsOnSlide(slides[currentSlide - 1]);
+}
+
+function initChartsOnSlide(slide) {
+    const canvases = slide.querySelectorAll('canvas:not([data-initialized])');
+    canvases.forEach(canvas => {
+        // Add chart initialization by ID here (no charts used in this deck)
+        canvas.setAttribute('data-initialized', 'true');
+    });
 }
 
 // Auto-hide controls

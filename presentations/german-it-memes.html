@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Goethe: The Stuff They Don’t Tell You At School</title>
+    <title>German IT Meme Culture</title>
     <style>
 * {
     margin: 0;
@@ -14,7 +14,7 @@
 body {
     font-family: 'Calibri', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     overflow: hidden;
-    background: #1a1a1a;
+    background: #333f4c;
     padding: 20px;
 }
 
@@ -24,7 +24,7 @@ body {
     position: relative;
     overflow: hidden;
     border-radius: 12px;
-    border: 5px solid #444;
+    border: 5px solid #333f4c;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
 }
 
@@ -60,7 +60,6 @@ body {
     flex-direction: column;
 }
 
-/* Title slide specific */
 .slide.title-slide .slide-content {
     justify-content: center;
     align-items: flex-start;
@@ -69,7 +68,7 @@ body {
 
 .slide.title-slide h1 {
     font-size: 5rem;
-    color: #1a1a1a;
+    color: #333f4c;
     margin-bottom: 30px;
     font-weight: 600;
     line-height: 1.2;
@@ -81,13 +80,12 @@ body {
     margin-bottom: 40px;
 }
 
-/* Content slides */
 h2 {
     font-size: 4rem;
-    color: #1a1a1a;
+    color: #333f4c;
     margin-bottom: 40px;
     font-weight: 600;
-    border-bottom: 4px solid #0066cc;
+    border-bottom: 4px solid #79aa00;
     padding-bottom: 15px;
     display: inline-block;
 }
@@ -130,7 +128,7 @@ ul li::before {
     content: "●";
     position: absolute;
     left: 0;
-    color: #0066cc;
+    color: #79aa00;
     font-size: 1.5rem;
 }
 
@@ -158,12 +156,12 @@ table {
 }
 
 th {
-    background: #0066cc;
+    background: #79aa00;
     color: white;
     padding: 20px;
     text-align: left;
     font-weight: 600;
-    border: 1px solid #0052a3;
+    border: 1px solid #658e1e;
 }
 
 td {
@@ -202,7 +200,7 @@ tr:nth-child(even) {
 }
 
 button {
-    background: #0066cc;
+    background: #79aa00;
     color: white;
     border: none;
     padding: 12px 25px;
@@ -215,18 +213,18 @@ button {
 }
 
 button:hover {
-    background: #0052a3;
+    background: #658e1e;
 }
 
 button:active {
-    background: #004080;
+    background: #4a772b;
 }
 
 .slide-number {
     position: fixed;
     bottom: 30px;
     left: 30px;
-    color: #1a1a1a;
+    color: #333f4c;
     font-size: 1.1rem;
     background: rgba(255, 255, 255, 0.9);
     padding: 8px 16px;
@@ -240,12 +238,11 @@ button:active {
     bottom: 0;
     left: 0;
     height: 4px;
-    background: #0066cc;
+    background: #79aa00;
     z-index: 100;
     transition: width 0.3s ease;
 }
 
-/* Laser pointer mode */
 .laser-pointer {
     position: fixed;
     width: 12px;
@@ -292,13 +289,13 @@ body.laser-mode {
 }
 
 .highlight {
-    color: #0066cc;
+    color: #79aa00;
     font-weight: 600;
 }
 
 .badge {
     display: inline-block;
-    background: #0066cc;
+    background: #79aa00;
     color: white;
     padding: 10px 25px;
     border-radius: 4px;
@@ -307,7 +304,6 @@ body.laser-mode {
     font-weight: 600;
 }
 
-/* Background image classes */
 .bg-first-slide {
     background-image: url('https://raw.githubusercontent.com/medavisgmbh/presentation-in-minutes/refs/heads/main/data/presentation_first_slide.png');
 }
@@ -326,11 +322,10 @@ body.laser-mode {
 
 .image-demo img {
     box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-    border: 3px solid #0066cc;
+    border: 3px solid #79aa00;
     border-radius: 8px;
 }
 
-/* Animation classes */
 @keyframes fadeInUp {
     from { opacity: 0; transform: translateY(30px); }
     to { opacity: 1; transform: translateY(0); }
@@ -385,17 +380,17 @@ body.laser-mode {
     justify-content: center;
     width: 150px;
     height: 150px;
-    background: linear-gradient(135deg, #0066cc, #004499);
+    background: linear-gradient(135deg, #79aa00, #658e1e);
     color: white;
     border-radius: 12px;
     font-size: 1.2rem;
     font-weight: 600;
     margin: 15px;
-    box-shadow: 0 4px 15px rgba(0, 102, 204, 0.4);
+    box-shadow: 0 4px 15px rgba(121, 170, 0, 0.4);
 }
 
 .shimmer-text {
-    background: linear-gradient(90deg, #0066cc 0%, #00aaff 50%, #0066cc 100%);
+    background: linear-gradient(90deg, #79aa00 0%, #a8d830 50%, #79aa00 100%);
     background-size: 200% auto;
     -webkit-background-clip: text;
     background-clip: text;
@@ -403,7 +398,6 @@ body.laser-mode {
     animation: shimmer 3s linear infinite;
 }
 
-/* Two-column layout */
 .two-column {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -418,14 +412,13 @@ body.laser-mode {
 
 .two-column .column h3 {
     margin-top: 0;
-    border-bottom: 3px solid #0066cc;
+    border-bottom: 3px solid #79aa00;
     padding-bottom: 10px;
 }
 
-/* Quote/Callout styling */
 .quote-block {
     background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-    border-left: 6px solid #0066cc;
+    border-left: 6px solid #79aa00;
     padding: 40px 50px;
     margin: 30px 0;
     position: relative;
@@ -438,7 +431,7 @@ body.laser-mode {
     top: 10px;
     left: 20px;
     font-size: 5rem;
-    color: #0066cc;
+    color: #79aa00;
     opacity: 0.3;
     font-family: Georgia, serif;
     line-height: 1;
@@ -459,8 +452,8 @@ body.laser-mode {
 }
 
 .callout {
-    background: #e7f3ff;
-    border: 2px solid #0066cc;
+    background: #f0f7e6;
+    border: 2px solid #79aa00;
     border-radius: 8px;
     padding: 30px 40px;
     margin: 30px 0;
@@ -476,9 +469,13 @@ body.laser-mode {
     border-color: #4caf50;
 }
 
+.callout.info {
+    background: #e7f3ff;
+    border-color: #005ca9;
+}
+
 .callout p { margin-bottom: 0; }
 
-/* Code block styling */
 .code-block {
     background: #1e1e1e;
     color: #d4d4d4;
@@ -498,28 +495,13 @@ body.laser-mode {
 .code-block::-webkit-scrollbar-thumb { background: #666; border-radius: 4px; }
 .code-block::-webkit-scrollbar-thumb:hover { background: #888; }
 
-.code-block .comment { color: #6a9955; }
+.code-block .comment { color: #658e1e; }
 .code-block .keyword { color: #569cd6; }
 .code-block .string { color: #ce9178; }
 .code-block .function { color: #dcdcaa; }
 .code-block .number { color: #b5cea8; }
 .code-block .tag { color: #569cd6; }
 .code-block .attribute { color: #9cdcfe; }
-
-/* Code scroll indicator (optional wrapper) */
-.code-wrapper { position: relative; }
-.code-wrapper::after {
-    content: '→';
-    position: absolute;
-    right: 10px;
-    bottom: 40px;
-    color: #666;
-    font-size: 1.2rem;
-    opacity: 0;
-    transition: opacity 0.3s;
-    pointer-events: none;
-}
-.code-wrapper.has-overflow::after { opacity: 1; }
 
 .code-header {
     background: #333;
@@ -531,23 +513,23 @@ body.laser-mode {
     font-family: 'Consolas', monospace;
 }
 
-/* Icon grid */
 .icon-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 30px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
     margin: 30px 0;
 }
 
 .icon-item {
     display: flex;
     align-items: flex-start;
-    gap: 20px;
-    padding: 25px;
+    gap: 25px;
+    padding: 35px 30px;
     background: white;
-    border-radius: 8px;
+    border-radius: 12px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
+    min-height: 140px;
 }
 
 .icon-item:hover {
@@ -558,36 +540,35 @@ body.laser-mode {
 .icon-item .icon {
     font-size: 3rem;
     flex-shrink: 0;
-    width: 60px;
-    height: 60px;
+    width: 70px;
+    height: 70px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #e7f3ff;
+    background: #f0f7e6;
     border-radius: 12px;
 }
 
 .icon-item .icon svg {
-    width: 32px;
-    height: 32px;
-    fill: #0066cc;
+    width: 38px;
+    height: 38px;
+    fill: #79aa00;
 }
 
 .icon-item .icon-content h4 {
-    font-size: 1.8rem;
-    color: #1a1a1a;
-    margin-bottom: 8px;
+    font-size: 2rem;
+    color: #333f4c;
+    margin-bottom: 10px;
     font-weight: 600;
 }
 
 .icon-item .icon-content p {
-    font-size: 1.4rem;
+    font-size: 1.5rem;
     color: #666;
     margin: 0;
-    line-height: 1.4;
+    line-height: 1.5;
 }
 
-/* Call-to-Action slide */
 .cta-slide .slide-content {
     justify-content: center;
     align-items: center;
@@ -625,20 +606,20 @@ body.laser-mode {
 }
 
 .cta-button.primary {
-    background: #0066cc;
+    background: #79aa00;
     color: white;
-    box-shadow: 0 4px 15px rgba(0, 102, 204, 0.4);
+    box-shadow: 0 4px 15px rgba(121, 170, 0, 0.4);
 }
 
 .cta-button.primary:hover {
     transform: translateY(-3px);
-    box-shadow: 0 6px 20px rgba(0, 102, 204, 0.5);
+    box-shadow: 0 6px 20px rgba(121, 170, 0, 0.5);
 }
 
 .cta-button.secondary {
     background: white;
-    color: #0066cc;
-    border: 3px solid #0066cc;
+    color: #79aa00;
+    border: 3px solid #79aa00;
 }
 
 .cta-button.secondary:hover {
@@ -653,12 +634,32 @@ body.laser-mode {
 }
 
 .cta-contact a {
-    color: #0066cc;
+    color: #79aa00;
     text-decoration: none;
     font-weight: 600;
 }
 
-/* Mobile responsive styles */
+.meme-box {
+    background: white;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    margin: 20px 0;
+    text-align: center;
+}
+
+.meme-box .meme-text {
+    font-size: 2.2rem;
+    font-style: italic;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.meme-box .meme-translation {
+    font-size: 1.4rem;
+    color: #666;
+}
+
 @media (max-width: 768px) {
     .slide { padding: 30px 40px; }
     .slide.title-slide .slide-content { padding-left: 20px; }
@@ -681,7 +682,10 @@ body.laser-mode {
     .quote-block p { font-size: 1.4rem; }
     .quote-block .attribution { font-size: 1.1rem; }
     .code-block { font-size: 1rem; padding: 15px; }
-    .icon-grid { grid-template-columns: 1fr; }
+    .icon-grid { grid-template-columns: 1fr 1fr; gap: 25px; }
+    .icon-item { padding: 25px 20px; min-height: auto; }
+    .icon-item .icon { width: 50px; height: 50px; }
+    .icon-item .icon svg { width: 28px; height: 28px; }
     .icon-item .icon-content h4 { font-size: 1.3rem; }
     .icon-item .icon-content p { font-size: 1.1rem; }
     .cta-slide h2 { font-size: 2.5rem; }
@@ -689,7 +693,6 @@ body.laser-mode {
     .cta-button { padding: 15px 30px; font-size: 1.2rem; }
 }
 
-/* Print styles for PDF export */
 @media print {
     @page { size: landscape; margin: 0; }
     body { background: white; padding: 0; margin: 0; }
@@ -716,218 +719,313 @@ body.laser-mode {
     }
     .slide-content { padding: 40px 60px; }
     .chart-container canvas { max-width: 100%; }
-    .cta-button { border: 2px solid #0066cc !important; }
+    .cta-button { border: 2px solid #79aa00 !important; }
 }
     </style>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 </head>
 <body>
     <div class="slide-container">
         <!-- Slide 1: Title -->
         <div class="slide title-slide active bg-first-slide" data-slide="1">
             <div class="slide-content">
-                <h1 class="anim-fade-up">Goethe:<br> The Stuff They Don’t Tell You At School</h1>
-                <p class="subtitle anim-fade-up anim-delay-1">Unknown sides of Johann Wolfgang von Goethe</p>
-                <div class="anim-fade-up anim-delay-2">
-                    <span class="badge">📚 Polymath</span>
-                    <span class="badge">🧪 Science Geek</span>
-                    <span class="badge">🍷 Wine Snob</span>
-                    <span class="badge">🌋 Rock Collector</span>
+                <h1>German IT Meme Culture</h1>
+                <p class="subtitle">Von Neuland bis "Kein Backup, kein Mitleid"</p>
+                <div>
+                    <span class="badge">🇩🇪 Deutsche Memes</span>
+                    <span class="badge">💻 IT Humor</span>
+                    <span class="badge">😂 Nerd Culture</span>
                 </div>
             </div>
         </div>
 
-        <!-- Slide 2: Bullet list – Strange career moves -->
+        <!-- Slide 2: The Legend - Neuland -->
         <div class="slide bg-default-slide" data-slide="2">
             <div class="slide-content">
-                <h2 class="anim-fade-up">Strange Career Moves & Titles</h2>
-                <p class="anim-fade-up anim-delay-1">Behind the “national poet” branding, Goethe’s CV is… odd.</p>
-                <ul>
-                    <li class="anim-fade-left anim-delay-1">
-                        <strong>Honorary Doctor of Medicine</strong> – 1794, University of Jena, despite never studying medicine formally.
-                    </li>
-                    <li class="anim-fade-left anim-delay-2">
-                        <strong>War Bureaucrat</strong> – As head of the war commission in Weimar, he helped recruit soldiers (including mercenaries) during the era of the American Revolution.
-                    </li>
-                    <li class="anim-fade-left anim-delay-3">
-                        <strong>Shadow Author “Plinius”</strong> – Early works published under a pseudonym, before “Goethe” became a brand.
-                    </li>
-                    <li class="anim-fade-left anim-delay-4">
-                        <strong>Terrified of Dentists</strong> – Chronic toothache, “swollen cheeks”, and he only went to the dentist in emergencies.
-                    </li>
-                    <li class="anim-fade-left anim-delay-5">
-                        <strong>Minister, Theatre Director, Court Insider</strong> – For decades he was more senior bureaucrat than starving artist.
-                    </li>
-                </ul>
+                <h2>🌐 "Das Internet ist für uns alle Neuland"</h2>
+                <div class="quote-block anim-fade-up">
+                    <p>Das Internet ist für uns alle Neuland.</p>
+                    <div class="attribution">— Angela Merkel, 2013</div>
+                </div>
+                <p class="anim-fade-up anim-delay-1">The most legendary German IT meme was born when Chancellor Merkel described the internet as "uncharted territory for all of us" during a press conference with Obama.</p>
+                <div class="callout warning anim-fade-up anim-delay-2">
+                    <p><strong>🎯 Impact:</strong> This quote became the ultimate symbol of Germany's perceived digital backwardness and is still referenced whenever German IT infrastructure fails.</p>
+                </div>
             </div>
         </div>
 
-        <!-- Slide 3: Two-column – Scientist vs Poet myth -->
+        <!-- Slide 3: Classic IT Support -->
         <div class="slide bg-default-slide" data-slide="3">
             <div class="slide-content">
-                <h2 class="anim-fade-up">Goethe the Scientist vs. The Schoolbook Myth</h2>
+                <h2>🔌 IT Support Classics</h2>
+                <p>Every German IT professional knows these situations:</p>
                 <div class="two-column">
-                    <div class="column anim-fade-left anim-delay-1">
-                        <h3>Myth: “Just a Romantic Poet”</h3>
+                    <div class="column">
+                        <h3>The Questions</h3>
                         <ul>
-                            <li><strong>Only</strong> known for <em>Faust</em> and <em>Werther</em>.</li>
-                            <li>Occasional “gentleman dilettante” in science.</li>
-                            <li>Mostly a passive admirer of nature.</li>
-                            <li>Seen as anti-Newton crank, then politely ignored.</li>
+                            <li><strong>"Haben Sie es aus- und wieder eingeschaltet?"</strong><br><em>(Did you try turning it off and on again?)</em></li>
+                            <li><strong>"Ist der Stecker drin?"</strong><br><em>(Is it plugged in?)</em></li>
+                            <li><strong>"Welcher Browser?"</strong><br><em>(Which browser?) — Answer: "Google"</em></li>
                         </ul>
                     </div>
-                    <div class="column anim-fade-right anim-delay-2">
-                        <h3>Reality: Obsessive Natural Scientist</h3>
+                    <div class="column">
+                        <h3>The Responses</h3>
                         <ul>
-                            <li><strong>Plant Morphology Pioneer</strong> – “Metamorphosis of Plants” basically sketches serial homology of leaves.</li>
-                            <li><strong>Comparative Anatomy</strong> – Work on skull and intermaxillary bone, in dialogue with early anatomists.</li>
-                            <li><strong>Colour Theory</strong> – A massive, stubborn counter-project to Newton, focusing on perception and psychology.</li>
-                            <li><strong>Goethean Science</strong> – A whole methodological tradition built on his “living experience” approach to phenomena.</li>
+                            <li><strong>"Ich hab nichts gemacht!"</strong><br><em>(I didn't do anything!)</em></li>
+                            <li><strong>"Gestern ging es noch!"</strong><br><em>(It worked yesterday!)</em></li>
+                            <li><strong>"Mein Enkel kann das!"</strong><br><em>(My grandson can do that!)</em></li>
                         </ul>
                     </div>
                 </div>
-                <p style="margin-top: 30px;" class="anim-fade-up anim-delay-3">
-                    <span class="shimmer-text">He took his science so seriously that, late in life, he was prouder of his colour theory than of his poetry.</span>
-                </p>
             </div>
         </div>
 
-        <!-- Slide 4: Icon grid – Unexpected obsessions -->
+        <!-- Slide 4: Kein Backup -->
         <div class="slide bg-default-slide" data-slide="4">
             <div class="slide-content">
-                <h2 class="anim-fade-up">Unexpected Obsessions</h2>
-                <p class="anim-fade-up anim-delay-1">Goethe’s hobbies looked suspiciously like side quests in a very nerdy RPG.</p>
-                <div class="icon-grid">
-                    <!-- Wine -->
-                    <div class="icon-item anim-fade-up anim-delay-1">
-                        <div class="icon">
-                            <svg viewBox="0 0 24 24">
-                                <path d="M15.5 12C17.43 10.59 19 8.11 19 5V3H5V5C5 8.11 6.57 10.59 8.5 12C9.44 12.68 10 13.8 10 15V19H8V21H16V19H14V15C14 13.8 14.56 12.68 15.5 12Z" />
-                            </svg>
-                        </div>
-                        <div class="icon-content">
-                            <h4>Certified Wine Diva</h4>
-                            <p>Not just “likes wine”: obsessively loyal to Johannisberger Riesling and Würzburger Stein – anything else made him grumpy.</p>
-                        </div>
-                    </div>
-
-                    <!-- Rocks -->
-                    <div class="icon-item anim-fade-up anim-delay-2">
-                        <div class="icon">
-                            <svg viewBox="0 0 24 24">
-                                <path d="M12 2L2 9l10 13 10-13-10-7zm0 3.15L17.74 9 12 18.25 6.26 9 12 5.15z" />
-                            </svg>
-                        </div>
-                        <div class="icon-content">
-                            <h4>17,800 Rocks… Seriously</h4>
-                            <p>He built one of Europe’s largest private mineral collections. A mineral was even named after him: <em>goethite</em>.</p>
-                        </div>
-                    </div>
-
-                    <!-- Weather / Barometer -->
-                    <div class="icon-item anim-fade-up anim-delay-3">
-                        <div class="icon">
-                            <svg viewBox="0 0 24 24">
-                                <path d="M12 3a9 9 0 1 0 9 9 9.01 9.01 0 0 0-9-9zm0 2a7 7 0 1 1-7 7 7.01 7.01 0 0 1 7-7zm.5 3h-1v5l4 2.4.5-.84-3.5-2.06z" />
-                            </svg>
-                        </div>
-                        <div class="icon-content">
-                            <h4>Barometer & Cloud Watcher</h4>
-                            <p>Kept instruments, logged weather, and loved seeing “living” patterns in meteorology, not just numbers.</p>
-                        </div>
-                    </div>
-
-                    <!-- Plants / Palm -->
-                    <div class="icon-item anim-fade-up anim-delay-4">
-                        <div class="icon">
-                            <svg viewBox="0 0 24 24">
-                                <path d="M12 2C9.5 2 7.5 3.5 7 6c2-1 3.5-.5 4.5.5C11 4.5 13 3 15 3c-1 2-1 3.5 0 4.5C16.5 6.5 18 6 19.5 6 19 3.5 17 2 14.5 2 13.3 2 12.3 2.4 12 3 11.7 2.4 10.7 2 9.5 2H12zM11 8l-1 12h2l-1-12z" />
-                            </svg>
-                        </div>
-                        <div class="icon-content">
-                            <h4>The Palm that Blew His Mind</h4>
-                            <p>“Goethe’s palm” in Padua helped trigger his idea that all plant organs are transformations of a basic archetypal leaf.</p>
-                        </div>
-                    </div>
-
-                    <!-- Psychology of colour -->
-                    <div class="icon-item anim-fade-up anim-delay-5">
-                        <div class="icon">
-                            <svg viewBox="0 0 24 24">
-                                <path d="M12 3C7.58 3 4 6.03 4 10c0 2.38 1.19 4.47 3.09 5.78L7 21l4.18-2.39C11.45 18.87 11.72 19 12 19c4.42 0 8-3.03 8-7s-3.58-9-8-9zm-1 5h2v5h-2V8zm0 6h2v2h-2v-2z" />
-                            </svg>
-                        </div>
-                        <div class="icon-content">
-                            <h4>Colour = Mood Machine</h4>
-                            <p>His colour theory is less physics, more psychology & art – inspiring painters and even philosophers later on.</p>
-                        </div>
-                    </div>
+                <h2>💾 "Kein Backup, kein Mitleid"</h2>
+                <div class="meme-box anim-scale">
+                    <div class="meme-text">🗑️ Kein Backup, kein Mitleid! 🗑️</div>
+                    <div class="meme-translation">"No backup, no sympathy!"</div>
+                </div>
+                <p class="anim-fade-up anim-delay-1">The unofficial motto of German IT departments everywhere. A cold but fair response to anyone who lost their data.</p>
+                <div class="callout anim-fade-up anim-delay-2">
+                    <p><strong>💡 Related wisdom:</strong> "RAID ist kein Backup" — A reminder that RAID is not a backup solution, no matter what your colleague thinks.</p>
                 </div>
             </div>
         </div>
 
-        <!-- Slide 5: Chart – How he spent his energy -->
+        <!-- Slide 5: German Developer Stereotypes -->
         <div class="slide bg-default-slide" data-slide="5">
             <div class="slide-content">
-                <h2 class="anim-fade-up">How Goethe Spent His Energy (Very Roughly)</h2>
-                <p class="anim-fade-up anim-delay-1">Not data from his time tracker – but a realistic split of where his life force went.</p>
-                <div class="chart-container anim-scale anim-delay-2">
-                    <canvas id="goetheTimeChart"></canvas>
-                </div>
-                <p class="anim-fade-up anim-delay-3">
-                    <span class="highlight">Takeaway:</span> calling him “just a writer” is like calling Da Vinci “guy who doodled a bit”. Wildly incomplete.
-                </p>
+                <h2>👨‍💻 German Developer Stereotypes</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Stereotype</th>
+                            <th>Reality</th>
+                            <th>Meme Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Over-engineering everything</td>
+                            <td>✅ Absolutely true</td>
+                            <td>🔥 Legendary</td>
+                        </tr>
+                        <tr>
+                            <td>Writing 500 lines of documentation</td>
+                            <td>✅ For a 10-line script</td>
+                            <td>📚 Classic</td>
+                        </tr>
+                        <tr>
+                            <td>Using Fax machines in 2024</td>
+                            <td>✅ Especially in healthcare</td>
+                            <td>📠 Eternal</td>
+                        </tr>
+                        <tr>
+                            <td>"Works on my machine"</td>
+                            <td>✅ Universal truth</td>
+                            <td>🖥️ Immortal</td>
+                        </tr>
+                        <tr>
+                            <td>Obsessing over Datenschutz</td>
+                            <td>✅ DSGVO is life</td>
+                            <td>🔒 Sacred</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
 
-        <!-- Slide 6: Quote / Callout – Weird priorities & fears -->
+        <!-- Slide 6: DSGVO / GDPR Memes -->
         <div class="slide bg-default-slide" data-slide="6">
             <div class="slide-content">
-                <h2 class="anim-fade-up">Weird Fears, Weirder Pride</h2>
-                <div class="quote-block anim-fade-up anim-delay-1">
-                    <p>“I do not pride myself on my poetic works, but on the fact that in the difficult science of colour I alone in my century know what is right.”</p>
-                    <div class="attribution">— Goethe, late in life (paraphrased)</div>
-                </div>
-
-                <div class="callout anim-fade-left anim-delay-2">
-                    <p><strong>💡 Pro Tip:</strong> To really “get” Goethe, don’t start with <em>Faust</em>. Start with his obsessions – plants, colours, rocks – and work backwards.</p>
-                </div>
-
-                <div class="callout warning anim-fade-right anim-delay-3">
-                    <p><strong>⚠️ Warning:</strong> His colour theory is <em>not</em> good physics. Treat it as a phenomenology of perception, not as a rival to Newton.</p>
-                </div>
-
-                <div class="callout success anim-fade-up anim-delay-4">
-                    <p><strong>✅ Success Story:</strong> Artists, philosophers and “Goethean scientists” still mine his way of looking at phenomena for inspiration today.</p>
+                <h2>🔒 DSGVO: Germany's Favorite Topic</h2>
+                <p>When privacy meets bureaucracy, memes are born:</p>
+                <div class="icon-grid">
+                    <div class="icon-item anim-fade-up">
+                        <div class="icon">🍪</div>
+                        <div class="icon-content">
+                            <h4>Cookie Banners</h4>
+                            <p>"Reject All" button hidden in 12pt gray font</p>
+                        </div>
+                    </div>
+                    <div class="icon-item anim-fade-up anim-delay-1">
+                        <div class="icon">📋</div>
+                        <div class="icon-content">
+                            <h4>Consent Forms</h4>
+                            <p>47 pages for a newsletter signup</p>
+                        </div>
+                    </div>
+                    <div class="icon-item anim-fade-up anim-delay-2">
+                        <div class="icon">🏢</div>
+                        <div class="icon-content">
+                            <h4>Datenschutzbeauftragter</h4>
+                            <p>The most feared person in the company</p>
+                        </div>
+                    </div>
+                    <div class="icon-item anim-fade-up anim-delay-3">
+                        <div class="icon">📧</div>
+                        <div class="icon-content">
+                            <h4>Email Disclaimers</h4>
+                            <p>Longer than the actual email</p>
+                        </div>
+                    </div>
+                    <div class="icon-item anim-fade-up anim-delay-4">
+                        <div class="icon">🖼️</div>
+                        <div class="icon-content">
+                            <h4>Photo Permission</h4>
+                            <p>Even Christmas party photos need consent</p>
+                        </div>
+                    </div>
+                    <div class="icon-item anim-fade-up anim-delay-5">
+                        <div class="icon">💀</div>
+                        <div class="icon-content">
+                            <h4>Abmahnung Fear</h4>
+                            <p>"We might get sued" for everything</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- Slide 7: CTA – Reread Goethe -->
-        <div class="slide cta-slide bg-default-slide" data-slide="7">
+        <!-- Slide 7: SAP Memes -->
+        <div class="slide bg-default-slide" data-slide="7">
             <div class="slide-content">
-                <h2 class="anim-scale">Read Goethe Like a Weirdo (i.e. Properly)</h2>
-                <p class="cta-subtitle anim-fade-up anim-delay-1">
-                    You’ve met the rock-hoarding, wine-obsessed, colour-theory-flexing side of Goethe.
-                    Next step: follow the obsessions yourself.
-                </p>
-                <div class="cta-buttons anim-fade-up anim-delay-2">
-                    <a href="https://en.wikipedia.org/wiki/Goethean_science" class="cta-button primary" target="_blank" rel="noopener noreferrer">
-                        Explore Goethean Science
-                    </a>
-                    <a href="https://en.wikipedia.org/wiki/Theory_of_Colours" class="cta-button secondary" target="_blank" rel="noopener noreferrer">
-                        Peek into <em>Theory of Colours</em>
-                    </a>
+                <h2>📊 SAP: A German Love Story</h2>
+                <p>No German IT meme collection is complete without SAP jokes:</p>
+                <ul>
+                    <li><strong>"SAP = Sanduhr Anzeige Programm"</strong><br><em>(Hourglass Display Program)</em></li>
+                    <li><strong>"SAP = Störungen Aller Programme"</strong><br><em>(Disruption of All Programs)</em></li>
+                    <li><strong>"SAP = Schnarch Auf Prozessoren"</strong><br><em>(Snoring On Processors)</em></li>
+                </ul>
+                <div class="callout warning">
+                    <p><strong>⚠️ True Story:</strong> "Our SAP consultant says it will only take 6 months" — Famous last words before a 3-year project.</p>
                 </div>
-                <div class="cta-contact anim-fade-up anim-delay-3">
-                    Want more strange classics? Ask your future self: <strong>“What else did school oversimplify?”</strong>
+            </div>
+        </div>
+
+        <!-- Slide 8: German Internet Infrastructure -->
+        <div class="slide bg-default-slide" data-slide="8">
+            <div class="slide-content">
+                <h2>🐌 German Internet Speed Memes</h2>
+                <div class="quote-block">
+                    <p>In Germany, we don't say "the internet is slow." We say "Kupferkabel bis ins Haus" and I think that's beautiful.</p>
+                    <div class="attribution">— Every German village resident</div>
+                </div>
+                <div class="two-column">
+                    <div class="column">
+                        <h3>What Telekom promises</h3>
+                        <ul>
+                            <li>🚀 Up to 250 Mbit/s</li>
+                            <li>📡 5G everywhere</li>
+                            <li>🌐 Glasfaser coming soon™</li>
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <h3>What you actually get</h3>
+                        <ul>
+                            <li>🐌 16 Mbit/s on a good day</li>
+                            <li>📵 No signal in the basement</li>
+                            <li>🔌 "Ihr Anschluss wird geprüft"</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: Programmer Jokes -->
+        <div class="slide bg-default-slide" data-slide="9">
+            <div class="slide-content">
+                <h2>😄 Classic German IT Jokes</h2>
+                <div class="meme-box anim-fade-up">
+                    <div class="meme-text">Warum trinken Programmierer Kaffee?<br>Weil sie sonst Java nicht verstehen! ☕</div>
+                    <div class="meme-translation">"Why do programmers drink coffee? Because otherwise they don't understand Java!"</div>
+                </div>
+                <div class="meme-box anim-fade-up anim-delay-1">
+                    <div class="meme-text">Es gibt 10 Arten von Menschen:<br>Die, die Binär verstehen, und die, die es nicht tun.</div>
+                    <div class="meme-translation">"There are 10 types of people: Those who understand binary, and those who don't."</div>
+                </div>
+                <div class="meme-box anim-fade-up anim-delay-2">
+                    <div class="meme-text">Ein SQL-Befehl geht in eine Bar, sieht zwei Tische und fragt:<br>"Kann ich euch joinen?"</div>
+                    <div class="meme-translation">"A SQL query walks into a bar, sees two tables and asks: Can I join you?"</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 10: Code Comments -->
+        <div class="slide bg-default-slide" data-slide="10">
+            <div class="slide-content">
+                <h2>💬 German Code Comments</h2>
+                <p>Found in production code across Germany:</p>
+                <div class="code-header">JavaScript</div>
+                <div class="code-block"><span class="comment">// Das hier ist Müll, aber es funktioniert</span>
+<span class="comment">// (This is garbage, but it works)</span>
+
+<span class="comment">// TODO: Aufräumen wenn Zeit ist (seit 2019)</span>
+<span class="comment">// (TODO: Clean up when there's time - since 2019)</span>
+
+<span class="comment">// Hier nicht anfassen! Der letzte der das tat ist nicht mehr hier.</span>
+<span class="comment">// (Don't touch this! The last person who did is no longer here.)</span>
+
+<span class="comment">// Warum funktioniert das? Keine Ahnung. Bitte nicht ändern.</span>
+<span class="comment">// (Why does this work? No idea. Please don't change.)</span>
+
+<span class="keyword">function</span> <span class="function">mysteriousFunction</span>() {
+    <span class="comment">// Hier passiert Magie ✨</span>
+    <span class="keyword">return</span> <span class="number">42</span>;
+}</div>
+            </div>
+        </div>
+
+        <!-- Slide 11: Stack Overflow Culture -->
+        <div class="slide bg-default-slide" data-slide="11">
+            <div class="slide-content">
+                <h2>📚 Stack Overflow auf Deutsch</h2>
+                <p>The universal developer experience, German edition:</p>
+                <div class="two-column">
+                    <div class="column">
+                        <h3>What you search</h3>
+                        <ul>
+                            <li>"Java NullPointerException lösen"</li>
+                            <li>"CSS div zentrieren 2024"</li>
+                            <li>"Git merge conflict beheben"</li>
+                            <li>"Docker container startet nicht"</li>
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <h3>What you find</h3>
+                        <ul>
+                            <li>⚠️ "Duplicate - closed in 2012"</li>
+                            <li>🤷 Accepted answer: "nvm, fixed it"</li>
+                            <li>👴 Solution requires jQuery 1.4</li>
+                            <li>🔥 300 downvotes, 0 answers</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="callout info" style="margin-top: 30px;">
+                    <p><strong>💡 Pro-Tipp:</strong> If you can't find a German answer, just search in English. The memes are the same, only the Umlaute are missing.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 12: CTA -->
+        <div class="slide cta-slide bg-default-slide" data-slide="12">
+            <div class="slide-content">
+                <h2>🎉 Danke fürs Zuhören!</h2>
+                <p class="cta-subtitle">Remember: In Germany, we don't say "it's a feature, not a bug." We say "Das ist so dokumentiert" and blame the specification.</p>
+                <div style="font-size: 4rem; margin: 30px 0;">
+                    <span class="shimmer-text">Happy Coding! 🇩🇪💻</span>
+                </div>
+                <div class="callout" style="max-width: 600px; margin: 30px auto;">
+                    <p><strong>🎯 Final Wisdom:</strong><br>"Wer nicht fragt, bleibt dumm. Wer nicht googelt, auch."<br><em>(Those who don't ask stay dumb. Those who don't Google, too.)</em></p>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- UI ELEMENTS -->
-    <div class="slide-number"><span id="currentSlide">1</span> / <span id="totalSlides">7</span></div>
+    <!-- UI Elements -->
+    <div class="slide-number"><span id="currentSlide">1</span> / <span id="totalSlides">12</span></div>
     <div class="progress-bar" id="progressBar"></div>
     <div class="laser-pointer" id="laserPointer"></div>
     <div class="controls">
@@ -968,54 +1066,6 @@ function updateSlide(direction) {
     
     document.getElementById('currentSlide').textContent = currentSlide;
     updateProgressBar();
-    initChartsOnSlide(slides[currentSlide - 1]);
-}
-
-function initChartsOnSlide(slide) {
-    const canvases = slide.querySelectorAll('canvas:not([data-initialized])');
-    canvases.forEach(canvas => {
-        if (canvas.id === 'goetheTimeChart') {
-            initGoetheTimeChart(canvas);
-        }
-        canvas.setAttribute('data-initialized', 'true');
-    });
-}
-
-function initGoetheTimeChart(canvas) {
-    const ctx = canvas.getContext('2d');
-    new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: ['Literature', 'Science', 'Administration', 'Travel', 'Letters & Networks'],
-            datasets: [{
-                label: 'Very Rough Share of Life Energy',
-                data: [40, 25, 15, 10, 10],
-                backgroundColor: ['#0066cc', '#28a745', '#ff9800', '#0066cc', '#28a745'],
-                borderColor: ['#004c99', '#218838', '#f57c00', '#004c99', '#218838'],
-                borderWidth: 2
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: true,
-            plugins: {
-                legend: {
-                    labels: {
-                        font: { size: 18, family: 'Calibri' }
-                    }
-                }
-            },
-            scales: {
-                y: { 
-                    beginAtZero: true,
-                    ticks: { font: { size: 16, family: 'Calibri' } }
-                },
-                x: {
-                    ticks: { font: { size: 16, family: 'Calibri' } }
-                }
-            }
-        }
-    });
 }
 
 // Auto-hide controls
