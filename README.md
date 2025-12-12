@@ -14,6 +14,8 @@ This repository contains `AGENT_INSTRUCTIONS.md` - a comprehensive prompt that t
 2. Paste it as your first message in a new conversation
 3. Follow up with your presentation request, e.g.:
    > "Create a presentation about renewable energy for a business audience"
+The AI will produce an HTML code block
+4. Copy the HTML code into a local `.html` file and open it in a browser (e.g. Chrome)
 
 #### GitHub Copilot: Agent in this Repository
 1. Clone this Repo
